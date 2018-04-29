@@ -1,0 +1,26 @@
+(function() {
+    document.addEventListener("click", function(evt) {
+        var node = evt.target;
+        switch (node.nodeName) {
+        case "A":
+            console.log("click@" + node);
+            break;
+        default:
+        }
+    });
+    document.addEventListener("mouseover", function(evt) {
+        var node = evt.target;
+        switch (node.nodeName) {
+        case "A":
+            console.log("mouseover@" + node);
+            break;
+        default:
+        }
+    });
+    document.addEventListener("mousemove", function(evt) {
+        var node = evt.target;
+        if (evt.which == 1) {
+            console.log("drag@" + node);
+        }
+    });
+})();

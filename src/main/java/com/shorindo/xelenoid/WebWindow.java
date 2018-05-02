@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.selenade;
+package com.shorindo.xelenoid;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.sun.javafx.scene.web.Debugger;
 import com.sun.javafx.webkit.WebConsoleListener;
 
 import javafx.beans.value.ChangeListener;
@@ -36,6 +35,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -54,7 +55,8 @@ public class WebWindow implements Initializable {
     private static final String HOME = "http://shorindo.com";
     @FXML private WebView webView;
     @FXML private TextField locationBar;
-    @FXML private ListView<String> historyView;
+    @FXML private TaskView suiteView;
+    @FXML private WebView runnerView;
     @FXML private ConsoleView consoleView;
     private WebEngine webEngine;
 
@@ -91,6 +93,9 @@ public class WebWindow implements Initializable {
                 }
             }
         });
+//        suiteView.setRoot(new TreeItem<>("<suite>"));
+//        suiteView.getRoot().getChildren().add(new TreeItem<>("<driver/>"));
+        suiteView.load(getClass().getResourceAsStream("sample.xml"));
         webView.setFontScale(1.2);
         webEngine = webView.getEngine();
         webEngine.getLoadWorker().stateProperty().addListener(
@@ -126,8 +131,7 @@ public class WebWindow implements Initializable {
         locationBar.setText(webEngine.getLocation());
         webEngine.setUserStyleSheetLocation(getClass().getResource("style.css").toString());
         webEngine.executeScript(loadResource("script.js"));
-        historyView.getItems().add(webEngine.getLocation());
-
+//        suiteView.getRoot().getChildren().add(new TreeItem<>("<get url='" + webEngine.getLocation() + "'/>"));
         ((Stage)webView.getScene().getWindow()).setTitle(webEngine.getTitle());
     }
 

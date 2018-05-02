@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.selenade;
+package com.shorindo.xelenoid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +80,9 @@ public class ConsoleView extends ListView<String> {
         getItems().add(getItems().size() - 1, message);
     }
 
+    // FIXME
     public void attach(WebView webView) {
-        this.webView = webView;
+        ConsoleView.webView = webView;
     }
 
     public static class PromptListCell extends ListCell<String> {
@@ -117,7 +118,7 @@ public class ConsoleView extends ListView<String> {
             container.getChildren().add(label);
             container.getChildren().add(textField);
             backgroundProperty().set(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-
+            setStyle("-fx-padding: 0px 5px 0px 5px");
         }
 
         @Override

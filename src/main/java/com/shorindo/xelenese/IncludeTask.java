@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.selenade;
+package com.shorindo.xelenese;
+
+import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  * 
  */
-public class WebLogger {
-    private Class<?> clazz;
+public class IncludeTask extends Task {
+    @XmlAttribute
+    private String src;
 
-    public static WebLogger getLogger(Class<?> clazz) {
-        return new WebLogger(clazz);
+    public IncludeTask() {
     }
 
-    private WebLogger(Class<?> clazz) {
-        this.clazz = clazz;
-    }
-    public void log(String level, Object message) {
-        System.out.println("[" + level + "] " + message);
-    }
-    public void debug(Object message) {
-        log("DEBUG", message);
+    @Override
+    public String getName() {
+        return "include";
     }
 }

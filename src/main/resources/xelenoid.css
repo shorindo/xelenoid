@@ -1,0 +1,12 @@
+.record-button {
+  -fx-fill: red;
+}
+.play-button {
+  -fx-fill: green;
+}
+.pause-button {
+  -fx-fill: #eecf14;
+}
+.stop-button {
+  -fx-fill: black;
+}

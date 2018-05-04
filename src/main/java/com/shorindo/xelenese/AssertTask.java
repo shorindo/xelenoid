@@ -15,35 +15,28 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
 
 /**
  * 
  */
-@TaskName("get")
-public class GetTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(GetTask.class);
-    private String url;
+@XmlAccessorType(XmlAccessType.NONE)
+@TaskName("assert")
+public class AssertTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(AssertTask.class);
 
-    public GetTask(Task parent) {
+    public AssertTask(Task parent) {
         super(parent);
     }
 
+    @Override
     public String getTaskName() {
-        return "get";
+        return "assert";
     }
 
     @Override
     public void execute() {
         LOG.debug("execute()");
-        getDriver().get(url);
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

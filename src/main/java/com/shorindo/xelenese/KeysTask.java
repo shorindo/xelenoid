@@ -18,13 +18,21 @@ package com.shorindo.xelenese;
 /**
  * 
  */
+@TaskName("keys")
 public class KeysTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(KeysTask.class);
 
-    public KeysTask() {
+    public KeysTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "keys";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
     }
 }

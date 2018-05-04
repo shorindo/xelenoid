@@ -1,0 +1,35 @@
+<suite>
+  <driver className="com.shorindo.xelenese.DummyDriver"/>
+
+  <include src="..."/>
+
+  <template name="">
+  </template>
+
+  <test name="" depends="">
+    <get url=""/>
+    <close/>
+    <quit/>
+    <back/>
+    <forward/>
+    <refresh/>
+    <position top="10" left="10"/>
+ 
+    <element id="" className="" cssSelector="" xpath="">
+      <keys/>
+      <click/>
+      <verify/>
+      <assert/>
+    </element>
+  </test>
+
+  <test name="">
+    <script>
+      window.title = "hoge";
+    </script>
+    <element xpath="">
+      <text/>
+      <click/>
+    </element>
+  </test>
+</suite>

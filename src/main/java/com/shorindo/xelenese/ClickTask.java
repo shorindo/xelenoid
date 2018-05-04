@@ -18,13 +18,21 @@ package com.shorindo.xelenese;
 /**
  * 
  */
+@TaskName("click")
 public class ClickTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ClickTask.class);
 
-    public ClickTask() {
+    public ClickTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "click";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
     }
 }

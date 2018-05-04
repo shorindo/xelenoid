@@ -19,19 +19,24 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.openqa.selenium.WebDriver;
 
 /**
  * 
  */
-@XmlRootElement(name="suite")
+@TaskName("suite")
 public class SuiteTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(SuiteTask.class);
+    private WebDriver driver;
 
-    public SuiteTask() {
+    public SuiteTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "suite";
     }
 
@@ -44,6 +49,22 @@ public class SuiteTask extends Task {
     @Override
     public List<Task> getTaskList() {
         return super.getTaskList();
+    }
+
+    @Override
+    public void execute() throws XeleneseException {
+        LOG.debug("execute()");
+        for (Task task : getTaskList()) {
+            task.execute();
+        }
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
     }
 
 }

@@ -15,35 +15,26 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import static org.junit.Assert.*;
+
+import java.io.InputStream;
+
+import org.junit.Test;
 
 /**
  * 
  */
-@TaskName("get")
-public class GetTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(GetTask.class);
-    private String url;
+public class XeleneseTest {
 
-    public GetTask(Task parent) {
-        super(parent);
+    @Test
+    public void test() throws Exception {
+        InputStream is = getClass().getClassLoader().getResourceAsStream("xelenese-test.xml");
+        try {
+            Xelenese xelenese = new Xelenese(is);
+            xelenese.run();
+        } finally {
+            is.close();
+        }
     }
 
-    public String getTaskName() {
-        return "get";
-    }
-
-    @Override
-    public void execute() {
-        LOG.debug("execute()");
-        getDriver().get(url);
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

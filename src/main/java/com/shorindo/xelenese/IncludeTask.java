@@ -20,15 +20,30 @@ import javax.xml.bind.annotation.XmlAttribute;
 /**
  * 
  */
+@TaskName("include")
 public class IncludeTask extends Task {
-    @XmlAttribute
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(IncludeTask.class);
     private String src;
 
-    public IncludeTask() {
+    public IncludeTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "include";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
     }
 }

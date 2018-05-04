@@ -18,30 +18,56 @@ package com.shorindo.xelenese;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
+
 /**
  * 
  */
 public abstract class Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Task.class);
+    private Task parent;
     private List<Task> taskList = new ArrayList<Task>();
 
-    public Task() {
+    public Task(Task parent) {
+        this.parent = parent;
+        if (parent != null) {
+            parent.getTaskList().add(this);
+        }
     }
 
-    public abstract String getName();
+    public abstract String getTaskName();
+    public abstract void execute() throws XeleneseException;
+
+    public Task getParent() {
+        return parent;
+    }
+
+    public void setParent(Task parent) {
+        this.parent = parent;
+    }
 
     public List<Task> getTaskList() {
         return taskList;
     }
 
+    public WebDriver getDriver() {
+        Task parent = this;
+        while (parent != null && !(parent instanceof SuiteTask)) {
+            parent = parent.getParent();
+        }
+        return ((SuiteTask)parent).getDriver();
+    }
+
     public String toString() {
         return toString(0);
     }
+
     public String toString(int depth) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < depth * 2; i++) {
             sb.append(" ");
         }
-        sb.append("<" + getName() + ">");
+        sb.append("<" + getTaskName() + ">");
         for (Task task : taskList) {
             sb.append("\n" + task.toString(depth + 1));
         }

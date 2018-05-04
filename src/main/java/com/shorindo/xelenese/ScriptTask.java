@@ -15,35 +15,29 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 /**
  * 
  */
-@TaskName("get")
-public class GetTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(GetTask.class);
-    private String url;
+@TaskName("script")
+public class ScriptTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ScriptTask.class);
+    private String value;
 
-    public GetTask(Task parent) {
+    public ScriptTask(Task parent) {
         super(parent);
     }
 
+    @Override
     public String getTaskName() {
-        return "get";
+        return "script";
     }
 
     @Override
     public void execute() {
-        LOG.debug("execute()");
-        getDriver().get(url);
+        LOG.debug("execute(" + value + ")");
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    public String getValue() {
+        return value;
     }
 }

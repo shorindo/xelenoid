@@ -15,16 +15,28 @@
  */
 package com.shorindo.xelenese;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  * 
  */
+@TaskName("forward")
 public class ForwardTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ForwardTask.class);
 
-    public ForwardTask() {
+    public ForwardTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "forward";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+        getDriver().navigate().forward();
     }
 }

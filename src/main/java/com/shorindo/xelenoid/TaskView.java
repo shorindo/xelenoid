@@ -99,7 +99,7 @@ public class TaskView extends TreeView<Task> {
             if (empty) {
                 setText(null);
             } else {
-                setText("<" + item.getName() + ">");
+                setText("<" + item.getTaskName() + ">");
             }
         }
     }

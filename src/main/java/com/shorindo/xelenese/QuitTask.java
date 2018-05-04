@@ -18,13 +18,22 @@ package com.shorindo.xelenese;
 /**
  * 
  */
+@TaskName("quit")
 public class QuitTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(QuitTask.class);
 
-    public QuitTask() {
+    public QuitTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "quit";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+        getDriver().quit();
     }
 }

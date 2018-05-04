@@ -17,22 +17,76 @@ package com.shorindo.xelenese;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
+import org.openqa.selenium.WebDriver;
+
 /**
  * 
  */
+@TaskName("driver")
 public class DriverTask extends Task {
-    @XmlAttribute
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(DriverTask.class);
     private String className;
-    @XmlAttribute
     private String options;
-    @XmlAttribute
     private String capabilities;
+    private WebDriver driver;
 
-    public DriverTask() {
+    public DriverTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "driver";
     }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+        try {
+            driver = (WebDriver)Class.forName(className).newInstance();
+            Task parent = getParent();
+            while (true) {
+                if (parent == null) {
+                    return;
+                } else if (parent instanceof SuiteTask) {
+                    ((SuiteTask)parent).setDriver(driver);
+                    return;
+                }
+            }
+        } catch (InstantiationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public String getOptions() {
+        return options;
+    }
+
+    public String getCapabilities() {
+        return capabilities;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
+    }
+
+    public void setCapabilities(String capabilities) {
+        this.capabilities = capabilities;
+    }
+
 }

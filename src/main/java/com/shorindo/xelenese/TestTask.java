@@ -23,14 +23,27 @@ import javax.xml.bind.annotation.XmlElements;
 /**
  * 
  */
+@TaskName("test")
 public class TestTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TestTask.class);
+    private String name;
+    private String depends;
 
-    public TestTask() {
+    public TestTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "test";
+    }
+
+    @Override
+    public void execute() throws XeleneseException {
+        LOG.debug("execute()");
+        for (Task task : getTaskList()) {
+            task.execute();
+        }
     }
 
     @XmlElements({
@@ -41,11 +54,28 @@ public class TestTask extends Task {
         @XmlElement(name="click", type=ClickTask.class),
         @XmlElement(name="close", type=CloseTask.class),
         @XmlElement(name="quit", type=QuitTask.class),
-        @XmlElement(name="refresh", type=RefreshTask.class)
+        @XmlElement(name="refresh", type=RefreshTask.class),
+        @XmlElement(name="script", type=ScriptTask.class)
     })
     @Override
     public List<Task> getTaskList() {
         return super.getTaskList();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDepends() {
+        return depends;
+    }
+
+    public void setDepends(String depends) {
+        this.depends = depends;
     }
 
 }

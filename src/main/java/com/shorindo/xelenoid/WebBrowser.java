@@ -60,7 +60,7 @@ public class WebBrowser extends Application implements WebDriver {
     @Override
     public void get(String url) {
         // TODO Auto-generated method stub
-        
+        LOG.debug("get(" + url + ")");
     }
 
     @Override

@@ -15,30 +15,38 @@
  */
 package com.shorindo.xelenese;
 
+import java.text.MessageFormat;
+
 /**
  * 
  */
 public class XeleneseLogger {
+    private Class<?> clazz;
 
     public static XeleneseLogger getLogger(Class<?> clazz) {
         return new XeleneseLogger(clazz);
     }
 
     private XeleneseLogger(Class<?> clazz) {
+        this.clazz = clazz;
     }
     public void log(String level, Object message) {
-        System.out.println("[" + level + "] " + message);
+        System.out.println("[" + level + "] " + clazz.getSimpleName() + " - " + message);
     }
-    public void debug(Object message) {
-        log("DEBUG", message);
+    public void debug(String message, Object...args) {
+        log("WARN", MessageFormat.format(message, args));
     }
-    public void info(Object message) {
-        log("INFO", message);
+    public void info(String message, Object...args) {
+        log("WARN", MessageFormat.format(message, args));
     }
-    public void warn(Object message) {
-        log("WARN", message);
+    public void warn(String message, Object...args) {
+        log("WARN", MessageFormat.format(message, args));
     }
-    public void error(Object message) {
-        log("ERROR", message);
+    public void error(String message, Object...args) {
+        log("ERROR", MessageFormat.format(message, args));
+    }
+    public void error(Throwable th) {
+        log("ERROR", th.getMessage());
+        th.printStackTrace(System.out);
     }
 }

@@ -18,13 +18,22 @@ package com.shorindo.xelenese;
 /**
  * 
  */
+@TaskName("back")
 public class BackTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(BackTask.class);
 
-    public BackTask() {
+    public BackTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "back";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+        getDriver().navigate().back();
     }
 }

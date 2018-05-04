@@ -15,35 +15,16 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * 
  */
-@TaskName("get")
-public class GetTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(GetTask.class);
-    private String url;
-
-    public GetTask(Task parent) {
-        super(parent);
-    }
-
-    public String getTaskName() {
-        return "get";
-    }
-
-    @Override
-    public void execute() {
-        LOG.debug("execute()");
-        getDriver().get(url);
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface TaskName {
+    String value();
 }

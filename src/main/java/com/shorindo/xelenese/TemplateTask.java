@@ -15,27 +15,25 @@
  */
 package com.shorindo.xelenese;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 
 /**
  * 
  */
+@TaskName("template")
 public class TemplateTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TemplateTask.class);
+    private String name;
 
-    public TemplateTask() {
+    public TemplateTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "template";
     }
 
@@ -48,5 +46,17 @@ public class TemplateTask extends Task {
         return super.getTaskList();
     }
 
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

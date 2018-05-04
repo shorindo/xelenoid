@@ -18,13 +18,22 @@ package com.shorindo.xelenese;
 /**
  * 
  */
+@TaskName("close")
 public class CloseTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ClickTask.class);
 
-    public CloseTask() {
+    public CloseTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "close";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+        getDriver().close();
     }
 }

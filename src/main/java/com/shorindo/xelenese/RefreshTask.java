@@ -18,13 +18,22 @@ package com.shorindo.xelenese;
 /**
  * 
  */
+@TaskName("refresh")
 public class RefreshTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(RefreshTask.class);
 
-    public RefreshTask() {
+    public RefreshTask(Task parent) {
+        super(parent);
     }
 
     @Override
-    public String getName() {
+    public String getTaskName() {
         return "refresh";
+    }
+
+    @Override
+    public void execute() {
+        LOG.debug("execute()");
+        getDriver().navigate().refresh();
     }
 }

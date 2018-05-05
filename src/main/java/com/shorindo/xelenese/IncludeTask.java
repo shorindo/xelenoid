@@ -15,8 +15,6 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 /**
  * 
  */
@@ -30,12 +28,7 @@ public class IncludeTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "include";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
     }
 

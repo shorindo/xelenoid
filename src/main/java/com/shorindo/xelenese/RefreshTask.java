@@ -27,12 +27,7 @@ public class RefreshTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "refresh";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
         getDriver().navigate().refresh();
     }

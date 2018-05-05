@@ -15,8 +15,6 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 /**
  * 
  */
@@ -29,12 +27,8 @@ public class GetTask extends Task {
         super(parent);
     }
 
-    public String getTaskName() {
-        return "get";
-    }
-
     @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
         getDriver().get(url);
     }

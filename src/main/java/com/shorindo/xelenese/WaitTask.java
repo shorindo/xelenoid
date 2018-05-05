@@ -18,16 +18,16 @@ package com.shorindo.xelenese;
 /**
  * 
  */
-@TaskName("script")
-public class ScriptTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ScriptTask.class);
+@TaskName("wait")
+public class WaitTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(WaitTask.class);
 
-    public ScriptTask(Task parent) {
+    public WaitTask(Task parent) {
         super(parent);
     }
 
     @Override
     public void execute(Object...args) {
-        LOG.debug("execute(" + getText() + ")");
+        LOG.debug("execute()");
     }
 }

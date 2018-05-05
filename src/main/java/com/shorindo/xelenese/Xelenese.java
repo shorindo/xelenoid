@@ -21,18 +21,11 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.Unmarshaller.Listener;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,14 +36,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import com.shorindo.xelenese.BeanUtil.BeanNotFoundException;
 
 /**
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Xelenese {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Xelenese.class);
     private Map<String, Class<Task>> taskMap = new HashMap<String, Class<Task>>();
@@ -59,17 +50,7 @@ public class Xelenese {
     public Xelenese(InputStream is) throws XeleneseException {
         init();
         load(is);
-//        try {
-//            JAXBContext jc = JAXBContext.newInstance(SuiteTask.class);
-//            Unmarshaller unmarshaller = jc.createUnmarshaller();
-//            SuiteUnmarshallListener pul = new SuiteUnmarshallListener();
-//            unmarshaller.setListener(pul);
-//            suite = SuiteTask.class.cast(unmarshaller.unmarshal(is));
-//            LOG.debug(suite.toString());
-//        } catch (JAXBException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+        LOG.debug(suite.toString());
     }
 
     private void init() {
@@ -78,9 +59,8 @@ public class Xelenese {
         int prefix = url.getFile().length() - path.length();
         File dir = new File(url.getFile()).getParentFile();
         for (File file : dir.listFiles()) {
-            String absPath;
             try {
-                absPath = file.toURI().toURL().getFile();
+                String absPath = file.toURI().toURL().getFile();
                 if (absPath.endsWith(".class")) {
                     String className = absPath
                             .substring(prefix)
@@ -95,7 +75,7 @@ public class Xelenese {
                     }
                     TaskName taskName = clazz.getAnnotation(TaskName.class);
                     if (taskName == null) {
-                        LOG.warn(clazz.getName() + " has no TaskName annotation.");
+                        LOG.warn("[{0}] has no TaskName annotation.", clazz.getName());
                         continue;
                     }
                     taskMap.put(taskName.value(), (Class<Task>)clazz);
@@ -110,7 +90,8 @@ public class Xelenese {
 
     private void load(InputStream is) throws XeleneseException {
         try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(is);
             suite = (SuiteTask)parse(null, document.getDocumentElement());
         } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -123,11 +104,14 @@ public class Xelenese {
         Class<Task> taskClass = taskMap.get(taskName);
 
         if (taskClass == null) {
+            LOG.warn("[{0}] is unknown.", taskName);
             return null;
         }
 
         try {
-            Task task = taskClass.getConstructor(Task.class).newInstance(parent);
+            Task task = taskClass
+                    .getConstructor(Task.class)
+                    .newInstance(parent);
 
             if (node.hasAttributes() && task != null) {
                 NamedNodeMap map = node.getAttributes();
@@ -146,29 +130,33 @@ public class Xelenese {
             if (node.hasChildNodes()) {
                 NodeList childNodes = node.getChildNodes();
                 for (int i = 0; i < childNodes.getLength(); i++) {
-                    parse(task, childNodes.item(i));
+                    Node child = childNodes.item(i);
+                    switch (child.getNodeType()) {
+                    case Node.ELEMENT_NODE:
+                        parse(task, child);
+                        break;
+                    case Node.CDATA_SECTION_NODE:
+                    case Node.TEXT_NODE:
+                        task.addText(child.getNodeValue());
+                        break;
+                    default:
+                    }
                 }
             }
 
             return task;
-        } catch (InstantiationException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IllegalAccessException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IllegalArgumentException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (InvocationTargetException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (NoSuchMethodException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (SecurityException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        } catch (InstantiationException e) {
+            LOG.error(e);
+        } catch (IllegalAccessException e) {
+            LOG.error(e);
+        } catch (IllegalArgumentException e) {
+            LOG.error(e);
+        } catch (InvocationTargetException e) {
+            LOG.error(e);
+        } catch (NoSuchMethodException e) {
+            LOG.error(e);
+        } catch (SecurityException e) {
+            LOG.error(e);
         }
 
         return null;
@@ -183,184 +171,10 @@ public class Xelenese {
         taskMap.put(taskName.value(), clazz);
     }
 
-//    public static void main(String[] args) {
-//        InputStream is = null;
-//        Xelenese xelenese = new Xelenese();
-//        try {
-//            is = Xelenese.class.getClassLoader().getResourceAsStream("com/shorindo/xelenoid/sample.xml");
-//            Task task = foo(is);
-//            System.out.println(task);
-////            Document d = xelenese.load(is);
-////            System.out.println(dump(d));
-////        } catch (IOException e) {
-////            e.printStackTrace();
-//        } finally {
-//            if (is != null)
-//                try {
-//                    is.close();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//        }
-//    }
-
-//    public Document load(InputStream is) throws IOException {
-//        try {
-//            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-//            document = builder.parse(is);
-//            return document;
-//        } catch (ParserConfigurationException e) {
-//            throw new IOException(e);
-//        } catch (SAXException e) {
-//            throw new IOException(e);
-//        }
-//    }
-
     public static String dump(Document document) throws IOException {
         StringWriter writer = new StringWriter();
         JAXB.marshal(document, writer);
         return writer.toString();
-//        String xslt =
-//                "<?xml version='1.0' encoding='UTF-8'?>" +
-//                "<xsl:stylesheet version='1.0'" +
-//                "     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'" +
-//                "     xmlns:xalan='http://xml.apache.org/xslt'>" +
-//                "   <xsl:output method='xml' encoding='UTF-8'" +
-//                "      indent='yes' xalan:indent-amount='4'/>" +
-//                "   <xsl:template match='/'>" +
-//                "      <xsl:copy-of select='.'/>" +
-//                "   </xsl:template>" +
-//                "</xsl:stylesheet>";
-//        ByteArrayInputStream bais = new ByteArrayInputStream(xslt.getBytes());
-//        StreamSource xsltSource = new StreamSource(bais);
-//        try {
-//            Transformer t = TransformerFactory.newInstance().newTransformer(xsltSource);
-//            DOMSource xmlSource = new DOMSource(document);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            StreamResult result = new StreamResult(baos);
-//            t.transform(xmlSource, result);
-//            return new String(baos.toByteArray(), "UTF-8");
-//        } catch (TransformerConfigurationException e) {
-//            throw new IOException(e);
-//        } catch (TransformerFactoryConfigurationError e) {
-//            throw new IOException(e);
-//        } catch (TransformerException e) {
-//            throw new IOException(e);
-//        }
     }
 
-//    public void run(Node node) throws XeleneseException {
-//        switch (node.getNodeName()) {
-//        case "driver":
-//            doDriver(node);
-//            break;
-//        default:
-//        }
-//    }
-
-//    private void doDriver(Node node) throws XeleneseException {
-//        Node attr = node.getAttributes().getNamedItem("className");
-//        try {
-//            Class clazz = Class.forName(attr.getNodeValue());
-//            driver = (WebDriver)clazz.newInstance();
-//        } catch (ClassNotFoundException e) {
-//            throw new XeleneseException(e);
-//        } catch (DOMException e) {
-//            throw new XeleneseException(e);
-//        } catch (InstantiationException e) {
-//            throw new XeleneseException(e);
-//        } catch (IllegalAccessException e) {
-//            throw new XeleneseException(e);
-//        }
-//    }
-
-//    public static String dump(Tag node, int depth) {
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < depth * 4; i++) {
-//            sb.append(' ');
-//        }
-//        sb.append("<" + node.getName() + ">\n");
-//        for (Tag tag : node.getChildren()) {
-//            sb.append(dump(tag, depth + 1));
-//        }
-//        return sb.toString();
-//    }
-
-//    private Document document;
-//    private Node curr;
-//
-//    public Document parse(InputStream is) throws XeleneseException {
-//        try {
-//            SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-//            parser.parse(is, this);
-//            return document;
-//        } catch (ParserConfigurationException e) {
-//            throw new XeleneseException(e);
-//        } catch (SAXException e) {
-//            throw new XeleneseException(e);
-//        } catch (IOException e) {
-//            throw new XeleneseException(e);
-//        }
-//    }
-//
-//    @Override
-//    public void startDocument() throws SAXException {
-//        DocumentBuilder builder;
-//        try {
-//            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-//            document = builder.newDocument();
-//        } catch (ParserConfigurationException e) {
-//            throw new SAXException(e);
-//        }
-//    }
-//
-//    @Override
-//    public void startElement(String uri, String localName, String qName,
-//            Attributes attributes) throws SAXException {
-//        Node child = null;
-//        switch(qName) {
-//        case "suite":
-//            child = new SuiteTag(document);
-//            break;
-//        case "driver":
-//            child = new DriverTag(document);
-//            break;
-//        case "template":
-//            child = new TemplateTag(document);
-//            break;
-//        case "test":
-//            child = new TestTag(document);
-//        default:
-//        }
-//        if (curr == null) {
-//            curr = child;
-//            document.appendChild(child);
-//        } else {
-//            curr.appendChild(child);
-//            curr = child;
-//        }
-//    }
-//
-//    @Override
-//    public void endElement(String uri, String localName, String qName)
-//            throws SAXException {
-//        super.endElement(uri, localName, qName);
-//    }
-//
-//    @Override
-//    public void characters(char[] ch, int start, int length)
-//            throws SAXException {
-//        // TODO Auto-generated method stub
-//        super.characters(ch, start, length);
-//    }
-    
-    public static class SuiteUnmarshallListener extends Listener {
-        @Override
-        public void beforeUnmarshal(Object target, Object parent) {
-            super.beforeUnmarshal(target, parent);
-            if (Task.class.isAssignableFrom(target.getClass())) {
-                ((Task)target).setParent((Task)parent);
-            }
-        }
-    }
 }

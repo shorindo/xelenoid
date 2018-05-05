@@ -27,12 +27,7 @@ public class VerifyTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "verify";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
     }
 }

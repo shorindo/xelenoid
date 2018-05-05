@@ -15,19 +15,16 @@
  */
 package com.shorindo.xelenese;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * 
  */
-@TaskName("script")
-public class ScriptTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ScriptTask.class);
-
-    public ScriptTask(Task parent) {
-        super(parent);
-    }
-
-    @Override
-    public void execute(Object...args) {
-        LOG.debug("execute(" + getText() + ")");
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface ChildTasks {
+    String[] value();
 }

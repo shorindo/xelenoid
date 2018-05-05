@@ -15,9 +15,6 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 /**
  * 
  */
@@ -30,12 +27,7 @@ public class ForwardTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "forward";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
         getDriver().navigate().forward();
     }

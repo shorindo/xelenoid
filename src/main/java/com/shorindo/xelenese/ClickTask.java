@@ -27,12 +27,7 @@ public class ClickTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "click";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
     }
 }

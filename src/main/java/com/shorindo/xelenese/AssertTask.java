@@ -15,13 +15,9 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAccessType;
-
 /**
  * 
  */
-@XmlAccessorType(XmlAccessType.NONE)
 @TaskName("assert")
 public class AssertTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(AssertTask.class);
@@ -31,12 +27,7 @@ public class AssertTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "assert";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
     }
 }

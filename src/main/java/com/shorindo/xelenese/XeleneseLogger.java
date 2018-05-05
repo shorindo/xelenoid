@@ -34,10 +34,10 @@ public class XeleneseLogger {
         System.out.println("[" + level + "] " + clazz.getSimpleName() + " - " + message);
     }
     public void debug(String message, Object...args) {
-        log("WARN", MessageFormat.format(message, args));
+        log("DEBUG", MessageFormat.format(message, args));
     }
     public void info(String message, Object...args) {
-        log("WARN", MessageFormat.format(message, args));
+        log("INFO", MessageFormat.format(message, args));
     }
     public void warn(String message, Object...args) {
         log("WARN", MessageFormat.format(message, args));

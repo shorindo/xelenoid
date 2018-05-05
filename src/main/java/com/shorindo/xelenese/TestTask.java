@@ -15,15 +15,12 @@
  */
 package com.shorindo.xelenese;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-
 /**
  * 
  */
 @TaskName("test")
+@ChildTasks({"get", "element", "forward", "back", "click",
+    "close", "quit", "refresh", "script" })
 public class TestTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TestTask.class);
     private String name;
@@ -34,32 +31,11 @@ public class TestTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "test";
-    }
-
-    @Override
-    public void execute() throws XeleneseException {
+    public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         for (Task task : getTaskList()) {
             task.execute();
         }
-    }
-
-    @XmlElements({
-        @XmlElement(name="get", type=GetTask.class),
-        @XmlElement(name="element", type=ElementTask.class),
-        @XmlElement(name="forward", type=ForwardTask.class),
-        @XmlElement(name="back", type=BackTask.class),
-        @XmlElement(name="click", type=ClickTask.class),
-        @XmlElement(name="close", type=CloseTask.class),
-        @XmlElement(name="quit", type=QuitTask.class),
-        @XmlElement(name="refresh", type=RefreshTask.class),
-        @XmlElement(name="script", type=ScriptTask.class)
-    })
-    @Override
-    public List<Task> getTaskList() {
-        return super.getTaskList();
     }
 
     public String getName() {

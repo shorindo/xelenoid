@@ -27,12 +27,7 @@ public class CloseTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "close";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
         getDriver().close();
     }

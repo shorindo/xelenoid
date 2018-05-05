@@ -15,15 +15,11 @@
  */
 package com.shorindo.xelenese;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-
 /**
  * 
  */
 @TaskName("template")
+@ChildTasks({"get", "element"})
 public class TemplateTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TemplateTask.class);
     private String name;
@@ -33,21 +29,7 @@ public class TemplateTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "template";
-    }
-
-    @XmlElements({
-        @XmlElement(name="get", type=GetTask.class),
-        @XmlElement(name="element", type=ElementTask.class)
-    })
-    @Override
-    public List<Task> getTaskList() {
-        return super.getTaskList();
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
     }
 

@@ -15,48 +15,31 @@
  */
 package com.shorindo.xelenese;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-
 /**
  * 
  */
 @TaskName("element")
+@ChildTasks({"element", "click", "keys", "verify", "assert"})
 public class ElementTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
     private String id;
+    private String name;
     private String className;
-    private String cssSelector;
+    private String tagName;
     private String xpath;
+    private String cssSelector;
+    private String linkText;
 
     public ElementTask(Task parent) {
         super(parent);
     }
 
     @Override
-    public String getTaskName() {
-        return "element";
-    }
-
-    @Override
-    public void execute() throws XeleneseException {
+    public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         for (Task task : getTaskList()) {
             task.execute();
         }
-    }
-
-    @XmlElements({
-        @XmlElement(name="click", type=ClickTask.class),
-        @XmlElement(name="keys", type=KeysTask.class),
-        @XmlElement(name="verify", type=VerifyTask.class),
-        @XmlElement(name="assert", type=AssertTask.class)
-    })
-    @Override
-    public List<Task> getTaskList() {
-        return super.getTaskList();
     }
 
     public String getId() {
@@ -89,6 +72,30 @@ public class ElementTask extends Task {
 
     public void setXpath(String xpath) {
         this.xpath = xpath;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
+
+    public String getLinkText() {
+        return linkText;
+    }
+
+    public void setLinkText(String linkText) {
+        this.linkText = linkText;
     }
 
 }

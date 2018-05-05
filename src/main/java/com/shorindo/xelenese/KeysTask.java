@@ -27,12 +27,7 @@ public class KeysTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "keys";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
     }
 }

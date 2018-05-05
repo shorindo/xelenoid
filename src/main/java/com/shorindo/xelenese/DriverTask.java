@@ -15,8 +15,6 @@
  */
 package com.shorindo.xelenese;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -35,12 +33,7 @@ public class DriverTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "driver";
-    }
-
-    @Override
-    public void execute() {
+    public void execute(Object...args) {
         LOG.debug("execute()");
         try {
             driver = (WebDriver)Class.forName(className).newInstance();

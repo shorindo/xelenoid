@@ -26,6 +26,7 @@ import org.openqa.selenium.WebDriver;
 public abstract class Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Task.class);
     private Task parent;
+    private StringBuilder text = new StringBuilder();
     private List<Task> taskList = new ArrayList<Task>();
 
     public Task(Task parent) {
@@ -35,8 +36,16 @@ public abstract class Task {
         }
     }
 
-    public abstract String getTaskName();
-    public abstract void execute() throws XeleneseException;
+    public abstract void execute(Object...args) throws XeleneseException;
+
+    public final String getTaskName() {
+        TaskName taskName = getClass().getAnnotation(TaskName.class);
+        if (taskName != null) {
+            return taskName.value();
+        } else {
+            return null;
+        }
+    }
 
     public Task getParent() {
         return parent;
@@ -44,6 +53,14 @@ public abstract class Task {
 
     public void setParent(Task parent) {
         this.parent = parent;
+    }
+
+    public String getText() {
+        return text.toString();
+    }
+
+    public void addText(String text) {
+        this.text.append(text);
     }
 
     public List<Task> getTaskList() {
@@ -62,7 +79,7 @@ public abstract class Task {
         return toString(0);
     }
 
-    public String toString(int depth) {
+    private String toString(int depth) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < depth * 2; i++) {
             sb.append(" ");

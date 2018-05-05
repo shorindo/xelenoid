@@ -15,18 +15,13 @@
  */
 package com.shorindo.xelenese;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlTransient;
-
 import org.openqa.selenium.WebDriver;
 
 /**
  * 
  */
 @TaskName("suite")
+@ChildTasks({"driver", "template", "test"})
 public class SuiteTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(SuiteTask.class);
     private WebDriver driver;
@@ -36,23 +31,7 @@ public class SuiteTask extends Task {
     }
 
     @Override
-    public String getTaskName() {
-        return "suite";
-    }
-
-    @XmlElements({
-        @XmlElement(name="driver", type=DriverTask.class),
-        @XmlElement(name="include", type=IncludeTask.class),
-        @XmlElement(name="template", type=TemplateTask.class),
-        @XmlElement(name="test", type=TestTask.class)
-    })
-    @Override
-    public List<Task> getTaskList() {
-        return super.getTaskList();
-    }
-
-    @Override
-    public void execute() throws XeleneseException {
+    public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         for (Task task : getTaskList()) {
             task.execute();

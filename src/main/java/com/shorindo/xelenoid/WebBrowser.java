@@ -24,10 +24,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * 
@@ -44,10 +46,18 @@ public class WebBrowser extends Application implements WebDriver {
 
     @Override
     public void start(Stage stage) throws Exception {
+        NetworknManager.init();
+
         InputStream is = getClass().getResourceAsStream("xelenoid.fxml");
         Parent root = (Parent)new FXMLLoader().load(is);
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                LOG.debug("WINDOW_SHOWN");
+            }
+        });
         stage.show();
     }
 

@@ -34,7 +34,15 @@ public class SuiteTask extends Task {
     public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         for (Task task : getTaskList()) {
-            task.execute();
+            if (task instanceof DriverTask) {
+                task.execute();
+                break;
+            }
+        }
+        for (Task task : getTaskList()) {
+            if (!(task instanceof DriverTask)) {
+                task.execute();
+            }
         }
     }
 

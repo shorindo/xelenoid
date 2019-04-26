@@ -53,6 +53,10 @@ public class Xelenese {
         LOG.debug(suite.toString());
     }
 
+    public Task getRoot() {
+        return suite;
+    }
+
     private void init() {
         String path = getClass().getName().replaceAll("\\.", "/") + ".class";
         URL url = getClass().getClassLoader().getResource(path);

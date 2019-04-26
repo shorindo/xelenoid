@@ -19,7 +19,7 @@ package com.shorindo.xelenese;
  * 
  */
 @TaskName("verify")
-public class VerifyTask extends Task {
+public class VerifyTask extends AssertTask {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(VerifyTask.class);
 
     public VerifyTask(Task parent) {

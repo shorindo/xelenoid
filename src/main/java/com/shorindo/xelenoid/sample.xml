@@ -1,4 +1,6 @@
 <suite>
+  <driver className="com.shorindo.xelenese.DummyDriver"/>
+
   <include src="..."/>
 
   <template name="">
@@ -6,8 +8,6 @@
     <element/>
     <click/>
   </template>
-
-  <driver className="com.shorindo.xelenese.DummyDriver"/>
 
   <test name="" depends="">
     <get url=""/>
@@ -21,8 +21,8 @@
     <element id="" className="" cssSelector="" xpath="">
       <keys/>
       <click/>
-      <verify target="..." value="..."/>
-      <assert target="..." value="..."/>
+      <verify/>
+      <assert/>
     </element>
   </test>
 

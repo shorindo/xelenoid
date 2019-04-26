@@ -15,19 +15,19 @@
  */
 package com.shorindo.xelenoid;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXB;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.shorindo.xelenese.SuiteTask;
-import com.shorindo.xelenese.Task;
-import com.shorindo.xelenese.Xelenese;
-import com.shorindo.xelenese.XeleneseException;
+import org.xml.sax.SAXException;
 
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -37,40 +37,55 @@ import javafx.util.Callback;
 /**
  * 
  */
-public class TaskView extends TreeView<Task> {
-    private static final WebLogger LOG = WebLogger.getLogger(TaskView.class);
+public class DOMView extends TreeView<Node> {
+    private static final WebLogger LOG = WebLogger.getLogger(DOMView.class);
 
-    public TaskView() {
+    public DOMView() {
         List<DOMCell> cellList = new ArrayList<DOMCell>();
-        setCellFactory(new Callback<TreeView<Task>, TreeCell<Task>>() {
+        setCellFactory(new Callback<TreeView<Node>, TreeCell<Node>>() {
             @Override
-            public TreeCell<Task> call(TreeView<Task> listView) {
+            public TreeCell<Node> call(TreeView<Node> listView) {
                 DOMCell cell = new DOMCell();
                 cellList.add(cell);
                 return cell;
             }
         });
+//        setStyle("-fx-padding: 0px");
     }
 
-    public TaskView(TreeItem<Task> root) {
+    public DOMView(TreeItem<Node> root) {
         super(root);
         root.setExpanded(true);
     }
 
     public void load(InputStream is) {
         try {
-            Xelenese xelenese = new Xelenese(is);
-            setRoot(createTreeItem(xelenese.getRoot()));
-        } catch (XeleneseException e) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setIgnoringComments(true);
+            factory.setIgnoringElementContentWhitespace(true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(is);
+            Node node = document.getDocumentElement();
+            trim(node);
+            setRoot(createTreeItem(node));
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public TreeItem<Task> createTreeItem(Task task) {
+    public TreeItem<Node> createTreeItem(Node node) {
         //LOG.debug("createTreeItem(" + node.getNodeName() + ")");
-        TreeItem<Task> item = new TreeItem<Task>(task);
-        for (Task child : task.getTaskList()) {
-            item.getChildren().add(createTreeItem(child));
+        TreeItem<Node> item = new TreeItem<Node>(node);
+        if (node.hasChildNodes()) {
+            NodeList childNodes = node.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node child = childNodes.item(i);
+                item.getChildren().add(createTreeItem(child));
+            }
         }
         return item;
     }
@@ -92,19 +107,19 @@ public class TaskView extends TreeView<Task> {
         }
     }
 
-    public static class DOMCell extends TreeCell<Task> {
+    public static class DOMCell extends TreeCell<Node> {
 
         public DOMCell() {
             setStyle("-fx-padding: 0px");
         }
 
         @Override
-        protected void updateItem(Task item, boolean empty) {
+        protected void updateItem(Node item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
                 setText(null);
             } else {
-                setText("<" + item.getTaskName() + ">");
+                setText("<" + item.getNodeName() + ">");
             }
         }
     }

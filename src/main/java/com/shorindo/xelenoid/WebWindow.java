@@ -29,8 +29,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
@@ -40,9 +43,12 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * 
@@ -66,6 +72,20 @@ public class WebWindow implements Initializable {
             consoleView.log(message);
         });
         consoleView.attach(webView);
+
+//        webView.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
+//            @Override
+//            public void handle(WindowEvent event) {
+//                LOG.debug("INDOW_SHOWN");
+//            }
+//        });
+
+//        webView.getScene().widthProperty().addListener(new ChangeListener<Number>() {
+//            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+//                LOG.debug("width:" + oldSceneWidth + "->" + newSceneWidth);
+//            }
+//        });
+
         locationBar.setBackground(new Background(new BackgroundFill(
                 new Color(0.9, 0.9, 0.9, 0.0),
                 new CornerRadii(20.0),
@@ -90,8 +110,7 @@ public class WebWindow implements Initializable {
                 }
             }
         });
-//        suiteView.setRoot(new TreeItem<>("<suite>"));
-//        suiteView.getRoot().getChildren().add(new TreeItem<>("<driver/>"));
+
         suiteView.load(getClass().getResourceAsStream("sample.xml"));
         webView.setFontScale(1.2);
         webEngine = webView.getEngine();
@@ -117,6 +136,12 @@ public class WebWindow implements Initializable {
                 alert.showAndWait();
             }
         });
+        webEngine.setOnError(new EventHandler<WebErrorEvent>() {
+            @Override
+            public void handle(WebErrorEvent event) {
+                LOG.debug(event);
+            }
+        });
         webEngine.load(HOME);
     }
 
@@ -125,11 +150,16 @@ public class WebWindow implements Initializable {
     }
 
     private void onLoadAfter() {
-        locationBar.setText(webEngine.getLocation());
-        webEngine.setUserStyleSheetLocation(getClass().getResource("style.css").toString());
-        webEngine.executeScript(loadResource("script.js"));
-//        suiteView.getRoot().getChildren().add(new TreeItem<>("<get url='" + webEngine.getLocation() + "'/>"));
-        ((Stage)webView.getScene().getWindow()).setTitle(webEngine.getTitle());
+        Object[] result = RequestQueue.get(webEngine.getLocation());
+        LOG.debug("#onLoadAfter() -> queue[" + webEngine.getLocation() + "]=" + result);
+        if ("401".equals(result[0])) {
+            showAuthDialog((String)result[1]);
+        } else {
+            locationBar.setText(webEngine.getLocation());
+            webEngine.setUserStyleSheetLocation(getClass().getResource("style.css").toString());
+            webEngine.executeScript(loadResource("script.js"));
+            ((Stage)webView.getScene().getWindow()).setTitle(webEngine.getTitle());
+        }
     }
 
     private String loadResource(String fileName) {
@@ -151,6 +181,24 @@ public class WebWindow implements Initializable {
         return "";
     }
 
+    private void showAuthDialog(String realm) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("basicauth.fxml"));
+            loader.load();
+            Parent root = loader.getRoot();
+            Scene scene = new Scene(root);
+            Stage dialog = new Stage(StageStyle.UTILITY);
+            dialog.setScene(scene);
+            dialog.initOwner(webView.getScene().getWindow());
+            dialog.initModality(Modality.WINDOW_MODAL);
+            dialog.setResizable(false);
+            dialog.setTitle("Select an Option");
+            dialog.showAndWait();
+        } catch (IOException e) {
+            LOG.error(e);
+        }
+    }
+
     private void dispose(Closeable c) {
         if (c != null)
             try {
@@ -159,4 +207,5 @@ public class WebWindow implements Initializable {
                 e.printStackTrace();
             }
     }
+
 }

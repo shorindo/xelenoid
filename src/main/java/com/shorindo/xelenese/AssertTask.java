@@ -21,6 +21,8 @@ package com.shorindo.xelenese;
 @TaskName("assert")
 public class AssertTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(AssertTask.class);
+    private String target;
+    private String value;
 
     public AssertTask(Task parent) {
         super(parent);
@@ -29,5 +31,21 @@ public class AssertTask extends Task {
     @Override
     public void execute(Object...args) {
         LOG.debug("execute()");
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

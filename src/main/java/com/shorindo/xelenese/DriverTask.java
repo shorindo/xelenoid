@@ -26,35 +26,30 @@ public class DriverTask extends Task {
     private String className;
     private String options;
     private String capabilities;
-    private WebDriver driver;
 
     public DriverTask(Task parent) {
         super(parent);
     }
 
     @Override
-    public void execute(Object...args) {
+    public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         try {
-            driver = (WebDriver)Class.forName(className).newInstance();
+            WebDriver driver = (WebDriver)Class.forName(className).newInstance();
             Task parent = getParent();
-            while (true) {
-                if (parent == null) {
-                    return;
-                } else if (parent instanceof SuiteTask) {
+            while (parent != null) {
+                if (parent instanceof SuiteTask) {
                     ((SuiteTask)parent).setDriver(driver);
                     return;
                 }
+                parent = parent.getParent();
             }
         } catch (InstantiationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new XeleneseException(e);
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new XeleneseException(e);
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new XeleneseException(e);
         }
     }
 

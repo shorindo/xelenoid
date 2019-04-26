@@ -15,27 +15,32 @@
  */
 package com.shorindo.xelenoid;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
 /**
  * 
  */
-public class WebLogger {
-    private Class<?> clazz;
+public class InputStreamInterceptor extends InputStream {
+    private static final WebLogger LOG = WebLogger.getLogger(InputStreamInterceptor.class);
+    private InputStream is;
+    private ByteArrayOutputStream bb;
 
-    public static WebLogger getLogger(Class<?> clazz) {
-        return new WebLogger(clazz);
+    public InputStreamInterceptor(InputStream is) {
+        this.is = is;
+        this.bb = new ByteArrayOutputStream();
     }
 
-    private WebLogger(Class<?> clazz) {
-        this.clazz = clazz;
+    @Override
+    public int read() throws IOException {
+        int ch = is.read();
+        this.bb.write(ch);
+        return ch;
     }
-    public void log(String level, Object message) {
-        System.out.println("[" + level + "] " + message);
-    }
-    public void debug(Object message) {
-        log("DEBUG", message);
-    }
-    public void error(Throwable th) {
-        log("ERROR", th.getMessage());
-        th.printStackTrace();
+
+    public byte[] getBytes() {
+        return this.bb.toByteArray();
     }
 }

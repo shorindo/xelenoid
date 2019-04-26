@@ -13,29 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenoid;
+package com.shorindo.xelenese;
 
 /**
  * 
  */
-public class WebLogger {
-    private Class<?> clazz;
-
-    public static WebLogger getLogger(Class<?> clazz) {
-        return new WebLogger(clazz);
-    }
-
-    private WebLogger(Class<?> clazz) {
-        this.clazz = clazz;
-    }
-    public void log(String level, Object message) {
-        System.out.println("[" + level + "] " + message);
-    }
-    public void debug(Object message) {
-        log("DEBUG", message);
-    }
-    public void error(Throwable th) {
-        log("ERROR", th.getMessage());
-        th.printStackTrace();
-    }
+public interface Hook {
+    public void apply();
 }

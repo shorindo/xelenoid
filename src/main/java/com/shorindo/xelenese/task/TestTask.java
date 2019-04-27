@@ -28,7 +28,6 @@ import com.shorindo.xelenese.annotation.TaskName;
     "close", "quit", "refresh", "script" })
 public class TestTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TestTask.class);
-    private String name;
     private String depends;
 
     public TestTask(Task parent) {
@@ -49,14 +48,6 @@ public class TestTask extends Task {
                 throw e;
             }
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDepends() {

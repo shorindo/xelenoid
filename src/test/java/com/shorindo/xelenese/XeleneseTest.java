@@ -31,6 +31,7 @@ import org.apache.tomcat.JarScannerCallback;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -40,6 +41,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 /**
  * 
  */
+@RunWith(XeleneseRunner.class)
 public class XeleneseTest {
 //    private static Tomcat tomcat;
 

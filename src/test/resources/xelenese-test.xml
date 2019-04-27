@@ -11,7 +11,7 @@
   <!-- driver className="org.openqa.selenium.firefox.FirefoxDriver" / -->
   <driver className="org.openqa.selenium.chrome.ChromeDriver" />
 
-  <test name="" depends="" onError="continue">
+  <test name="トップページ表示" depends="">
     <get url="http://shorindo.com"/>
     <!--
     <close/>
@@ -21,7 +21,7 @@
     <refresh/>
     <position top="10" left="10"/>
  
-    <element xpath="//A" onError="continue">
+    <element xpath="//A">
       <keys/>
       <click/>
       <verify target="..." value="..."/>
@@ -29,14 +29,14 @@
     </element>
   </test>
 
-  <test name="test on error" onError="continue">
+  <test name="エラー発生対応" onError="continue">
     <element xpath="aaa">
       <click/>
     </element>
     <get url="http://shorindo.com"/>
   </test>
 
-  <test name="" onError="continue">
+  <test name="スクリプトでタイトル変更" onError="continue">
     <element className="label">
       <text/>
       <click/>

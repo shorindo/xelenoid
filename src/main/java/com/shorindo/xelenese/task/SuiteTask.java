@@ -38,14 +38,20 @@ public class SuiteTask extends Task {
     @Override
     public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
+        init();
+        run();
+    }
+
+    public void init() throws XeleneseException {
         for (Task task : getTaskList()) {
-            if (task instanceof DriverTask) {
+            if (!(task instanceof TestTask)) {
                 task.execute();
-                break;
             }
         }
+    }
+    public void run() throws XeleneseException {
         for (Task task : getTaskList()) {
-            if (!(task instanceof DriverTask)) {
+            if (task instanceof TestTask) {
                 task.execute();
             }
         }

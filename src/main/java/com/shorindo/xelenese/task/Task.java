@@ -32,6 +32,7 @@ public abstract class Task {
     protected static final String ON_ERROR_CONTINUE = "continue";
     protected static final String ON_ERROR_EXIT = "exit";
     private Task parent;
+    private String name;
     private StringBuilder text = new StringBuilder();
     private String onError = ON_ERROR_EXIT;
     private List<Task> taskList = new ArrayList<Task>();
@@ -80,6 +81,14 @@ public abstract class Task {
             parent = parent.getParent();
         }
         return ((SuiteTask)parent).getDriver();
+    }
+
+    public final void setName(String name) {
+        this.name = name;
+    }
+
+    public final String getName() {
+        return name;
     }
 
     public void setOnError(String action) {

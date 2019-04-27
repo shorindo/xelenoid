@@ -52,7 +52,7 @@ public class Xelenese {
     private Task suite;
 
     public Xelenese(InputStream is) throws XeleneseException {
-        init();
+        setup();
         load(is);
         LOG.debug(suite.toString());
     }
@@ -61,7 +61,7 @@ public class Xelenese {
         return suite;
     }
 
-    private void init() {
+    private void setup() {
         String path = getClass().getName().replaceAll("\\.", "/") + ".class";
         URL url = getClass().getClassLoader().getResource(path);
         int prefix = url.getFile().length() - path.length();

@@ -32,7 +32,6 @@ public class ElementTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
     private By by;
     private String id;
-    private String name;
     private String className;
     private String tagName;
     private String xpath;
@@ -86,15 +85,6 @@ public class ElementTask extends Task {
     public void setXpath(String xpath) {
         this.xpath = xpath;
         this.by = By.xpath(xpath);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-        this.by = By.name(name);
     }
 
     public String getTagName() {

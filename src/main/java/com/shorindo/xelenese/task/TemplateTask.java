@@ -26,7 +26,6 @@ import com.shorindo.xelenese.annotation.TaskName;
 @ChildTasks({"get", "element"})
 public class TemplateTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TemplateTask.class);
-    private String name;
 
     public TemplateTask(Task parent) {
         super(parent);
@@ -35,14 +34,6 @@ public class TemplateTask extends Task {
     @Override
     public void execute(Object...args) {
         LOG.debug("execute()");
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

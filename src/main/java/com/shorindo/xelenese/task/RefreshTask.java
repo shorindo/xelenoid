@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.RetentionPolicy;
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface TaskName {
-    String value();
+@TaskName("refresh")
+public class RefreshTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(RefreshTask.class);
+
+    public RefreshTask(Task parent) {
+        super(parent);
+    }
+
+    @Override
+    public void execute(Object...args) {
+        LOG.debug("execute()");
+        getDriver().navigate().refresh();
+    }
 }

@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseException;
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.ChildTasks;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
@@ -33,8 +38,16 @@ public class TestTask extends Task {
     @Override
     public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
-        for (Task task : getTaskList()) {
-            task.execute();
+        try {
+            for (Task task : getTaskList()) {
+                task.execute();
+            }
+        } catch (Exception e) {
+            if (ON_ERROR_CONTINUE.equals(getOnError())) {
+                LOG.error(e);
+            } else {
+                throw e;
+            }
         }
     }
 

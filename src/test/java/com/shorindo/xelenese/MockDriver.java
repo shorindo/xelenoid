@@ -421,31 +421,31 @@ public class MockDriver implements WebDriver {
 
         @Override
         public boolean isDisplayed() {
-            // TODO Auto-generated method stub
+            LOG.debug("isDisplayed()");
             return false;
         }
 
         @Override
         public Point getLocation() {
-            // TODO Auto-generated method stub
+            LOG.debug("getLocation()");
             return null;
         }
 
         @Override
         public Dimension getSize() {
-            // TODO Auto-generated method stub
+            LOG.debug("getSize()");
             return null;
         }
 
         @Override
         public Rectangle getRect() {
-            // TODO Auto-generated method stub
+            LOG.debug("getRect()");
             return null;
         }
 
         @Override
         public String getCssValue(String propertyName) {
-            // TODO Auto-generated method stub
+            LOG.debug("getCssValue(" + propertyName + ")");
             return null;
         }
 

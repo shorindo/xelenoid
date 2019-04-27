@@ -37,7 +37,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.shorindo.xelenese.BeanUtil.BeanNotFoundException;
+import com.shorindo.xelenese.annotation.TaskName;
+import com.shorindo.xelenese.task.SuiteTask;
+import com.shorindo.xelenese.task.Task;
+import com.shorindo.xelenese.util.BeanUtil;
+import com.shorindo.xelenese.util.BeanUtil.BeanNotFoundException;
 
 /**
  * 
@@ -61,7 +65,7 @@ public class Xelenese {
         String path = getClass().getName().replaceAll("\\.", "/") + ".class";
         URL url = getClass().getClassLoader().getResource(path);
         int prefix = url.getFile().length() - path.length();
-        File dir = new File(url.getFile()).getParentFile();
+        File dir = new File(new File(url.getFile()).getParentFile(), "task");
         for (File file : dir.listFiles()) {
             try {
                 String absPath = file.toURI().toURL().getFile();

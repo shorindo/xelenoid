@@ -13,39 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("assert")
-public class AssertTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(AssertTask.class);
-    private String target;
-    private String value;
+@TaskName("forward")
+public class ForwardTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ForwardTask.class);
 
-    public AssertTask(Task parent) {
+    public ForwardTask(Task parent) {
         super(parent);
     }
 
     @Override
     public void execute(Object...args) {
         LOG.debug("execute()");
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+        getDriver().navigate().forward();
     }
 }

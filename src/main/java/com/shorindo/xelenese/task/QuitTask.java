@@ -13,11 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-public interface Hook {
-    public void apply();
+@TaskName("quit")
+public class QuitTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(QuitTask.class);
+
+    public QuitTask(Task parent) {
+        super(parent);
+    }
+
+    @Override
+    public void execute(Object...args) {
+        LOG.debug("execute()");
+        getDriver().quit();
+    }
 }

@@ -13,21 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 
+import com.shorindo.xelenese.XeleneseException;
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
+
 /**
  * 
  */
 public abstract class Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Task.class);
+    protected static final String ON_ERROR_CONTINUE = "continue";
+    protected static final String ON_ERROR_EXIT = "exit";
     private Task parent;
     private StringBuilder text = new StringBuilder();
-    private String onError;
+    private String onError = ON_ERROR_EXIT;
     private List<Task> taskList = new ArrayList<Task>();
 
     public Task(Task parent) {

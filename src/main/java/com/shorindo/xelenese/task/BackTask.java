@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("wait")
-public class WaitTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(WaitTask.class);
+@TaskName("back")
+public class BackTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(BackTask.class);
 
-    public WaitTask(Task parent) {
+    public BackTask(Task parent) {
         super(parent);
     }
 
     @Override
     public void execute(Object...args) {
         LOG.debug("execute()");
+        getDriver().navigate().back();
     }
 }

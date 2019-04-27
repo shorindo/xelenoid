@@ -44,6 +44,9 @@ public class WebBrowser extends Application implements WebDriver {
         launch(WebBrowser.class, args);
     }
 
+    /**
+     * 
+     */
     @Override
     public void start(Stage stage) throws Exception {
         NetworknManager.init();
@@ -136,9 +139,6 @@ public class WebBrowser extends Application implements WebDriver {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.openqa.selenium.WebDriver#manage()
-     */
     @Override
     public Options manage() {
         // TODO Auto-generated method stub

@@ -7,19 +7,21 @@
     <click/>
   </template>
 
-  <driver className="com.shorindo.xelenese.MockDriver"/>
+  <!-- driver className="com.shorindo.xelenese.MockDriver"/ -->
   <!-- driver className="org.openqa.selenium.firefox.FirefoxDriver" / -->
+  <driver className="org.openqa.selenium.chrome.ChromeDriver" />
 
-  <test name="" depends="">
-    <get url="http://localhost:8880/"/>
+  <test name="" depends="" onError="continue">
+    <get url="http://shorindo.com"/>
+    <!--
     <close/>
-    <quit/>
     <back/>
     <forward/>
+    -->
     <refresh/>
     <position top="10" left="10"/>
  
-    <element xpath="//*" onError="continue">
+    <element xpath="//A" onError="continue">
       <keys/>
       <click/>
       <verify target="..." value="..."/>
@@ -27,13 +29,20 @@
     </element>
   </test>
 
-  <test name="">
-    <script><![CDATA[
-      window.title = "hoge";
-    ]]></script>
-    <element xpath="">
+  <test name="test on error" onError="continue">
+    <element xpath="aaa">
+      <click/>
+    </element>
+    <get url="http://shorindo.com"/>
+  </test>
+
+  <test name="" onError="continue">
+    <element className="label">
       <text/>
       <click/>
     </element>
+    <script><![CDATA[
+      document.title = "hoge";
+    ]]></script>
   </test>
 </suite>

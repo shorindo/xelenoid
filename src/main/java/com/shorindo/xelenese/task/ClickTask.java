@@ -13,22 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import org.openqa.selenium.WebElement;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("quit")
-public class QuitTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(QuitTask.class);
+@TaskName("click")
+public class ClickTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ClickTask.class);
 
-    public QuitTask(Task parent) {
+    public ClickTask(Task parent) {
         super(parent);
     }
 
     @Override
     public void execute(Object...args) {
-        LOG.debug("execute()");
-        getDriver().quit();
+        LOG.debug("execute(" + args[0] + ")");
+        if (args != null && args.length > 0) {
+            WebElement element = (WebElement)args[0];
+            element.click();
+        }
     }
 }

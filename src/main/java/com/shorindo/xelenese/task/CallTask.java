@@ -13,31 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("get")
-public class GetTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(GetTask.class);
-    private String url;
+@TaskName("call")
+public class CallTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(CallTask.class);
 
-    public GetTask(Task parent) {
+    public CallTask(Task parent) {
         super(parent);
     }
 
     @Override
     public void execute(Object...args) {
         LOG.debug("execute()");
-        getDriver().get(url);
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

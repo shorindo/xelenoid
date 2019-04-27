@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import com.shorindo.xelenese.XeleneseException;
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.ChildTasks;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 

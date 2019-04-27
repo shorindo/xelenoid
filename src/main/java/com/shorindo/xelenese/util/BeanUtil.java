@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.util;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -23,6 +23,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.shorindo.xelenese.XeleneseLogger;
 
 /**
  * 

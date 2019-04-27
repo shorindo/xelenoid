@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("keys")
-public class KeysTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(KeysTask.class);
+@TaskName("wait")
+public class WaitTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(WaitTask.class);
 
-    public KeysTask(Task parent) {
+    public WaitTask(Task parent) {
         super(parent);
     }
 

@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("verify")
-public class VerifyTask extends AssertTask {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(VerifyTask.class);
+@TaskName("close")
+public class CloseTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ClickTask.class);
 
-    public VerifyTask(Task parent) {
+    public CloseTask(Task parent) {
         super(parent);
     }
 
     @Override
     public void execute(Object...args) {
         LOG.debug("execute()");
+        getDriver().close();
     }
 }

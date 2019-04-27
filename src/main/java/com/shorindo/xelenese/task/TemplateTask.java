@@ -13,17 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.ChildTasks;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("include")
-public class IncludeTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(IncludeTask.class);
-    private String src;
+@TaskName("template")
+@ChildTasks({"get", "element"})
+public class TemplateTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TemplateTask.class);
+    private String name;
 
-    public IncludeTask(Task parent) {
+    public TemplateTask(Task parent) {
         super(parent);
     }
 
@@ -32,11 +37,12 @@ public class IncludeTask extends Task {
         LOG.debug("execute()");
     }
 
-    public String getSrc() {
-        return src;
+    public String getName() {
+        return name;
     }
 
-    public void setSrc(String src) {
-        this.src = src;
+    public void setName(String name) {
+        this.name = name;
     }
+
 }

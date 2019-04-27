@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("template")
-@ChildTasks({"get", "element"})
-public class TemplateTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TemplateTask.class);
-    private String name;
+@TaskName("assert")
+public class AssertTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(AssertTask.class);
+    private String target;
+    private String value;
 
-    public TemplateTask(Task parent) {
+    public AssertTask(Task parent) {
         super(parent);
     }
 
@@ -33,12 +36,19 @@ public class TemplateTask extends Task {
         LOG.debug("execute()");
     }
 
-    public String getName() {
-        return name;
+    public String getTarget() {
+        return target;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTarget(String target) {
+        this.target = target;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

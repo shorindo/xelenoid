@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.task;
+
+import com.shorindo.xelenese.XeleneseLogger;
+import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("script")
-public class ScriptTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ScriptTask.class);
+@TaskName("text")
+public class TextTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TextTask.class);
 
-    public ScriptTask(Task parent) {
+    public TextTask(Task parent) {
         super(parent);
     }
 
     @Override
     public void execute(Object...args) {
-        LOG.debug("execute(" + getText() + ")");
+        LOG.debug("execute()");
     }
+
 }

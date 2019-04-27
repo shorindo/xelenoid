@@ -13,22 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenese.annotation;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * 
  */
-@TaskName("text")
-public class TextTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TextTask.class);
-
-    public TextTask(Task parent) {
-        super(parent);
-    }
-
-    @Override
-    public void execute(Object...args) {
-        LOG.debug("execute()");
-    }
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface TaskName {
+    String value();
 }

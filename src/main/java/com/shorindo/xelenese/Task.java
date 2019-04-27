@@ -27,6 +27,7 @@ public abstract class Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Task.class);
     private Task parent;
     private StringBuilder text = new StringBuilder();
+    private String onError;
     private List<Task> taskList = new ArrayList<Task>();
 
     public Task(Task parent) {
@@ -73,6 +74,14 @@ public abstract class Task {
             parent = parent.getParent();
         }
         return ((SuiteTask)parent).getDriver();
+    }
+
+    public void setOnError(String action) {
+        this.onError = action;
+    }
+
+    public String getOnError() {
+        return onError;
     }
 
     public String toString() {

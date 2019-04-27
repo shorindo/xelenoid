@@ -7,10 +7,11 @@
     <click/>
   </template>
 
-  <driver className="com.shorindo.xelenese.DummyDriver"/>
+  <driver className="com.shorindo.xelenese.MockDriver"/>
+  <!-- driver className="org.openqa.selenium.firefox.FirefoxDriver" / -->
 
   <test name="" depends="">
-    <get url=""/>
+    <get url="http://localhost:8880/"/>
     <close/>
     <quit/>
     <back/>
@@ -18,7 +19,7 @@
     <refresh/>
     <position top="10" left="10"/>
  
-    <element id="" className="" cssSelector="" xpath="">
+    <element xpath="//*" onError="continue">
       <keys/>
       <click/>
       <verify target="..." value="..."/>

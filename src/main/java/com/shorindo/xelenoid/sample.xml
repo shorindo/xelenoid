@@ -1,5 +1,5 @@
 <suite>
-  <driver className="com.shorindo.xelenese.DummyDriver"/>
+  <driver className="com.shorindo.xelenoid.XelenoidDriver"/>
 
   <include src="..."/>
 

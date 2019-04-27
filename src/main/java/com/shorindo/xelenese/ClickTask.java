@@ -15,6 +15,8 @@
  */
 package com.shorindo.xelenese;
 
+import org.openqa.selenium.WebElement;
+
 /**
  * 
  */
@@ -28,6 +30,10 @@ public class ClickTask extends Task {
 
     @Override
     public void execute(Object...args) {
-        LOG.debug("execute()");
+        LOG.debug("execute(" + args[0] + ")");
+        if (args != null && args.length > 0) {
+            WebElement element = (WebElement)args[0];
+            element.click();
+        }
     }
 }

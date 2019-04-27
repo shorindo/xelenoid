@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese;
+package com.shorindo.xelenoid;
 
 import java.net.URL;
 import java.util.List;
@@ -27,18 +27,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.Logs;
 
+import com.shorindo.xelenese.XeleneseLogger;
+
 /**
  * 
  */
-public class DummyDriver implements WebDriver {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(DummyDriver.class);
+public class XelenoidDriver implements WebDriver {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(XelenoidDriver.class);
     private String currentUrl;
     private String title;
 
     /**
      * 
      */
-    public DummyDriver() {
+    public XelenoidDriver() {
     }
 
     @Override

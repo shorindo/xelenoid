@@ -15,6 +15,9 @@
  */
 package com.shorindo.xelenese;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 /**
  * 
  */
@@ -22,6 +25,7 @@ package com.shorindo.xelenese;
 @ChildTasks({"element", "click", "keys", "verify", "assert"})
 public class ElementTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
+    private By by;
     private String id;
     private String name;
     private String className;
@@ -37,8 +41,9 @@ public class ElementTask extends Task {
     @Override
     public void execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
+        WebElement element = getDriver().findElement(by);
         for (Task task : getTaskList()) {
-            task.execute();
+            task.execute(element);
         }
     }
 
@@ -48,6 +53,7 @@ public class ElementTask extends Task {
 
     public void setId(String id) {
         this.id = id;
+        this.by = By.id(id);
     }
 
     public String getClassName() {
@@ -56,6 +62,7 @@ public class ElementTask extends Task {
 
     public void setClassName(String className) {
         this.className = className;
+        this.by = By.className(className);
     }
 
     public String getCssSelector() {
@@ -64,6 +71,7 @@ public class ElementTask extends Task {
 
     public void setCssSelector(String cssSelector) {
         this.cssSelector = cssSelector;
+        this.by = By.cssSelector(cssSelector);
     }
 
     public String getXpath() {
@@ -72,6 +80,7 @@ public class ElementTask extends Task {
 
     public void setXpath(String xpath) {
         this.xpath = xpath;
+        this.by = By.xpath(xpath);
     }
 
     public String getName() {
@@ -80,6 +89,7 @@ public class ElementTask extends Task {
 
     public void setName(String name) {
         this.name = name;
+        this.by = By.name(name);
     }
 
     public String getTagName() {
@@ -96,6 +106,7 @@ public class ElementTask extends Task {
 
     public void setLinkText(String linkText) {
         this.linkText = linkText;
+        this.by = By.linkText(linkText);
     }
 
 }

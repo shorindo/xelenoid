@@ -39,6 +39,7 @@ import javafx.util.Callback;
  */
 public class TaskView extends TreeView<Task> {
     private static final WebLogger LOG = WebLogger.getLogger(TaskView.class);
+    private Xelenese xelenese;
 
     public TaskView() {
         List<DOMCell> cellList = new ArrayList<DOMCell>();
@@ -59,7 +60,7 @@ public class TaskView extends TreeView<Task> {
 
     public void load(InputStream is) {
         try {
-            Xelenese xelenese = new Xelenese(is);
+            xelenese = new Xelenese(is);
             setRoot(createTreeItem(xelenese.getRoot()));
         } catch (XeleneseException e) {
             e.printStackTrace();
@@ -90,6 +91,10 @@ public class TaskView extends TreeView<Task> {
                 }
             }
         }
+    }
+
+    public void run() throws XeleneseException {
+        xelenese.run();
     }
 
     public static class DOMCell extends TreeCell<Task> {

@@ -17,16 +17,23 @@ package com.shorindo.xelenoid;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
+import net.arnx.jsonic.JSON;
+
+import com.shorindo.xelenese.XeleneseException;
 import com.sun.javafx.webkit.WebConsoleListener;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,9 +41,11 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -69,6 +78,7 @@ public class WebWindow implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         WebConsoleListener.setDefaultListener((webView, message, lineNumber, sourceId) -> {
+            LOG.debug("console.log(" + message + ")@" + sourceId);
             consoleView.log(message);
         });
         consoleView.attach(webView);
@@ -151,14 +161,22 @@ public class WebWindow implements Initializable {
 
     private void onLoadAfter() {
         Object[] result = RequestQueue.get(webEngine.getLocation());
-        LOG.debug("#onLoadAfter() -> queue[" + webEngine.getLocation() + "]=" + result);
-        if ("401".equals(result[0])) {
+        LOG.debug("#onLoadAfter() -> queue[" + webEngine.getLocation() + "]=" + JSON.encode(result));
+        if (result == null) {
+            return;
+        } else if ("401".equals(result[0])) {
             showAuthDialog((String)result[1]);
         } else {
             locationBar.setText(webEngine.getLocation());
             webEngine.setUserStyleSheetLocation(getClass().getResource("style.css").toString());
             webEngine.executeScript(loadResource("script.js"));
             ((Stage)webView.getScene().getWindow()).setTitle(webEngine.getTitle());
+try {
+    suiteView.run();
+} catch (XeleneseException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+}
         }
     }
 
@@ -196,6 +214,18 @@ public class WebWindow implements Initializable {
             dialog.showAndWait();
         } catch (IOException e) {
             LOG.error(e);
+        }
+    }
+
+    private void snapShot() {
+        try{
+            File outFile = new File("test.png");
+            LOG.debug("start snapShot:" + outFile.getAbsolutePath());
+            WritableImage img = webView.snapshot(new SnapshotParameters(), null);
+            ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", outFile);
+            LOG.debug("end snapShot:" + outFile.getAbsolutePath());
+        } catch(Exception ex) {
+            LOG.error(ex);
         }
     }
 

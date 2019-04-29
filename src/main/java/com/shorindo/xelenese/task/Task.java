@@ -29,12 +29,12 @@ import com.shorindo.xelenese.annotation.TaskName;
  */
 public abstract class Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Task.class);
-    protected static final String ON_ERROR_CONTINUE = "continue";
-    protected static final String ON_ERROR_EXIT = "exit";
+    protected static final String ON_ERROR_IGNORE = "ignore";
+    protected static final String ON_ERROR_FAIL = "fail";
     private Task parent;
     private String name;
     private StringBuilder text = new StringBuilder();
-    private String onError = ON_ERROR_EXIT;
+    private String onError = ON_ERROR_FAIL;
     private List<Task> taskList = new ArrayList<Task>();
 
     public Task(Task parent) {
@@ -44,7 +44,16 @@ public abstract class Task {
         }
     }
 
-    public abstract void execute(Object...args) throws XeleneseException;
+    /**
+     * タスクを実行する
+     * 
+     * @param args タスクの引数
+     * @return タスクが成功したらtrue、失敗したらfalseを返す
+     * @throws XeleneseException
+     */
+    public abstract boolean execute(Object...args) throws XeleneseException;
+
+    //public abstract void validate() throws XeleneseException;
 
     public final String getTaskName() {
         TaskName taskName = getClass().getAnnotation(TaskName.class);

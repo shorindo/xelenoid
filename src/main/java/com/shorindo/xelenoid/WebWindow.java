@@ -72,9 +72,15 @@ public class WebWindow implements Initializable {
     @FXML private ConsoleView consoleView;
     private WebEngine webEngine;
 
+    /**
+     * 
+     */
     public WebWindow() {
     }
 
+    /**
+     * 
+     */
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         WebConsoleListener.setDefaultListener((webView, message, lineNumber, sourceId) -> {
@@ -149,16 +155,22 @@ public class WebWindow implements Initializable {
         webEngine.setOnError(new EventHandler<WebErrorEvent>() {
             @Override
             public void handle(WebErrorEvent event) {
-                LOG.debug(event);
+                LOG.debug(event.toString());
             }
         });
         webEngine.load(HOME);
     }
 
+    /**
+     * 
+     */
     private void onLoadBefore() {
         locationBar.setText(webEngine.getLocation());
     }
 
+    /**
+     * 
+     */
     private void onLoadAfter() {
         Object[] result = RequestQueue.get(webEngine.getLocation());
         LOG.debug("#onLoadAfter() -> queue[" + webEngine.getLocation() + "]=" + JSON.encode(result));
@@ -171,15 +183,14 @@ public class WebWindow implements Initializable {
             webEngine.setUserStyleSheetLocation(getClass().getResource("style.css").toString());
             webEngine.executeScript(loadResource("script.js"));
             ((Stage)webView.getScene().getWindow()).setTitle(webEngine.getTitle());
-try {
-    suiteView.run();
-} catch (XeleneseException e) {
-    // TODO Auto-generated catch block
-    e.printStackTrace();
-}
         }
     }
 
+    /**
+     * 
+     * @param fileName
+     * @return
+     */
     private String loadResource(String fileName) {
         InputStream is = null;
         try {
@@ -199,6 +210,10 @@ try {
         return "";
     }
 
+    /**
+     * 
+     * @param realm
+     */
     private void showAuthDialog(String realm) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("basicauth.fxml"));

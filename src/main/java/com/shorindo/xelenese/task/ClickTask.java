@@ -32,11 +32,14 @@ public class ClickTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) {
+    public boolean execute(Object...args) {
         LOG.debug("execute(" + args[0] + ")");
         if (args != null && args.length > 0) {
             WebElement element = (WebElement)args[0];
             element.click();
+            return true;
+        } else {
+            return false;
         }
     }
 }

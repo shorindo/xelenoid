@@ -15,6 +15,8 @@
  */
 package com.shorindo.xelenese.task;
 
+import org.openqa.selenium.WebElement;
+
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -30,7 +32,8 @@ public class KeysTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) {
+    public boolean execute(Object...args) {
         LOG.debug("execute()");
+        return false;
     }
 }

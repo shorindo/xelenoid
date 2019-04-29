@@ -32,9 +32,10 @@ public class ScriptTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) {
+    public boolean execute(Object...args) {
         LOG.debug("execute(" + getText() + ")");
         JavascriptExecutor executor = (JavascriptExecutor)getDriver();
         executor.executeScript(getText());
+        return true;
     }
 }

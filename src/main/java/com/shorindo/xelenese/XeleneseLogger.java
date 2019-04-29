@@ -15,38 +15,68 @@
  */
 package com.shorindo.xelenese;
 
-import java.text.MessageFormat;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
  */
 public class XeleneseLogger {
-    private Class<?> clazz;
+    private Logger logger;
 
     public static XeleneseLogger getLogger(Class<?> clazz) {
-        return new XeleneseLogger(clazz);
+        return new XeleneseLogger(LogManager.getLogger(clazz));
     }
 
-    private XeleneseLogger(Class<?> clazz) {
-        this.clazz = clazz;
+    private XeleneseLogger(Logger logger) {
+        this.logger = logger;
     }
-    public void log(String level, Object message) {
-        System.out.println("[" + level + "] " + clazz.getSimpleName() + " - " + message);
+
+    private void log(XeleneseLoggerLevel level, String message, Object...args) {
+        logger.log(level.getLevel(), message);
     }
+
+    private void log(XeleneseLoggerLevel level, String message, Throwable th, Object...args) {
+        logger.log(level.getLevel(), message, th);
+    }
+
     public void debug(String message, Object...args) {
-        log("DEBUG", MessageFormat.format(message, args));
+        log(XeleneseLoggerLevel.DEBUG, message, args);
     }
+
     public void info(String message, Object...args) {
-        log("INFO", MessageFormat.format(message, args));
+        log(XeleneseLoggerLevel.INFO, message, args);
     }
+
     public void warn(String message, Object...args) {
-        log("WARN", MessageFormat.format(message, args));
+        log(XeleneseLoggerLevel.WARN, message, args);
     }
+
     public void error(String message, Object...args) {
-        log("ERROR", MessageFormat.format(message, args));
+        log(XeleneseLoggerLevel.ERROR, message, args);
     }
+
     public void error(Throwable th) {
-        log("ERROR", th.getMessage());
+        log(XeleneseLoggerLevel.ERROR, th.getMessage(), th);
         th.printStackTrace(System.out);
+    }
+
+    private enum XeleneseLoggerLevel {
+        TRACE(Level.TRACE),
+        DEBUG(Level.DEBUG),
+        INFO(Level.INFO),
+        WARN(Level.WARN),
+        ERROR(Level.ERROR);
+
+        private Level level;
+
+        private XeleneseLoggerLevel(Level level) {
+            this.level = level;
+        }
+
+        public Level getLevel() {
+            return level;
+        }
     }
 }

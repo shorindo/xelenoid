@@ -36,10 +36,11 @@ public class SuiteTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) throws XeleneseException {
+    public boolean execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         init();
         run();
+        return true;
     }
 
     public void init() throws XeleneseException {

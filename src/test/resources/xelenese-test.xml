@@ -1,4 +1,4 @@
-<suite>
+<suite name="Xeleneseテスト">
   <include src="..."/>
 
   <template name="">
@@ -11,33 +11,43 @@
   <!-- driver className="org.openqa.selenium.firefox.FirefoxDriver" / -->
   <driver className="org.openqa.selenium.chrome.ChromeDriver" />
 
-  <test name="トップページ表示" depends="">
+  <test name="get" depends="">
     <get url="http://shorindo.com"/>
     <!--
     <close/>
     <back/>
     <forward/>
     -->
+  </test>
+
+  <test name="refresh">
     <refresh/>
+  </test>
+
+  <test name="position">
     <position top="10" left="10"/>
- 
+  </test>
+
+  <test name="element">
     <element xpath="//A">
+      <!-- 
       <keys/>
       <click/>
       <verify target="..." value="..."/>
       <assert target="..." value="..."/>
+      -->
     </element>
   </test>
 
-  <test name="エラー発生対応" onError="continue">
+  <test name="onerror" onError="ignore">
     <element xpath="aaa">
       <click/>
     </element>
-    <get url="http://shorindo.com"/>
   </test>
 
-  <test name="スクリプトでタイトル変更" onError="continue">
+  <test name="script">
     <element className="label">
+      <wait/>
       <text/>
       <click/>
     </element>

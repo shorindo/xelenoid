@@ -27,7 +27,7 @@ import com.shorindo.xelenese.annotation.TaskName;
  * 
  */
 @TaskName("element")
-@ChildTasks({"element", "click", "keys", "verify", "assert"})
+@ChildTasks({"element", "click", "keys", "verify", "assert", "wait"})
 public class ElementTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
     private By by;
@@ -43,12 +43,16 @@ public class ElementTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) throws XeleneseException {
+    public boolean execute(Object...args) throws XeleneseException {
+        boolean result = true;
         LOG.debug("execute()");
         WebElement element = getDriver().findElement(by);
         for (Task task : getTaskList()) {
-            task.execute(element);
+            if (!task.execute(element)) {
+                result = false;
+            }
         }
+        return result;
     }
 
     public String getId() {

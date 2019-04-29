@@ -30,8 +30,9 @@ public class QuitTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) {
+    public boolean execute(Object...args) {
         LOG.debug("execute()");
         getDriver().quit();
+        return false;
     }
 }

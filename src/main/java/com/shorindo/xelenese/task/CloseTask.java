@@ -30,8 +30,9 @@ public class CloseTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) {
+    public boolean execute(Object...args) {
         LOG.debug("execute()");
         getDriver().close();
+        return true;
     }
 }

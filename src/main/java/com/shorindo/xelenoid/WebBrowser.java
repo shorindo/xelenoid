@@ -28,6 +28,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -145,19 +147,19 @@ public class WebBrowser extends Application implements WebDriver {
         return null;
     }
 
-//    public class OnLoadListener implements EventHandler<WebEvent<String>> {
-//        @Override
-//        public void handle(WebEvent<String> event) {
-//            print(event);
-//        }
-//    }
+    public class OnLoadListener implements EventHandler<WebEvent<String>> {
+        @Override
+        public void handle(WebEvent<String> event) {
+            LOG.debug(event.toString());
+        }
+    }
 
-//    public class WebEventHandler implements EventHandler<MouseEvent> {
-//        @Override
-//        public void handle(MouseEvent event) {
-//            print(event);
-//        }
-//    }
+    public class WebEventHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(MouseEvent event) {
+            LOG.debug(event.toString());
+        }
+    }
 //
 //    private static void print(Object arg) {
 //        System.out.println(arg);

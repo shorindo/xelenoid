@@ -15,27 +15,49 @@
  */
 package com.shorindo.xelenoid;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * 
  */
 public class WebLogger {
-    private Class<?> clazz;
+    private Logger logger;
 
     public static WebLogger getLogger(Class<?> clazz) {
-        return new WebLogger(clazz);
+        return new WebLogger(LogManager.getLogger(clazz));
     }
 
-    private WebLogger(Class<?> clazz) {
-        this.clazz = clazz;
+    private WebLogger(Logger logger) {
+        this.logger = logger;
     }
-    public void log(String level, Object message) {
-        System.out.println("[" + level + "] " + message);
+    public void log(WebLoggerLevel level, String message) {
+        logger.log(level.getLevel(), message);
     }
-    public void debug(Object message) {
-        log("DEBUG", message);
+    public void debug(String message) {
+        log(WebLoggerLevel.DEBUG, message);
     }
     public void error(Throwable th) {
-        log("ERROR", th.getMessage());
+        log(WebLoggerLevel.ERROR, th.getMessage());
         th.printStackTrace();
+    }
+
+    public enum WebLoggerLevel {
+        TRACE(Level.TRACE),
+        DEBUG(Level.DEBUG),
+        INFO(Level.INFO),
+        WARN(Level.WARN),
+        ERROR(Level.ERROR);
+
+        private Level level;
+
+        private WebLoggerLevel(Level level) {
+            this.level = level;
+        }
+
+        public Level getLevel() {
+            return level;
+        }
     }
 }

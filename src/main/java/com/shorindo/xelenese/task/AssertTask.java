@@ -15,6 +15,7 @@
  */
 package com.shorindo.xelenese.task;
 
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -32,8 +33,9 @@ public class AssertTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) {
+    public boolean execute(Object...args) {
         LOG.debug("execute()");
+        return false;
     }
 
     public String getTarget() {

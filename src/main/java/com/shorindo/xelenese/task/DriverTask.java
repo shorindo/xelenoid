@@ -36,7 +36,7 @@ public class DriverTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) throws XeleneseException {
+    public boolean execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         try {
             WebDriver driver = (WebDriver)Class.forName(className).newInstance();
@@ -44,7 +44,7 @@ public class DriverTask extends Task {
             while (parent != null) {
                 if (parent instanceof SuiteTask) {
                     ((SuiteTask)parent).setDriver(driver);
-                    return;
+                    return true;
                 }
                 parent = parent.getParent();
             }
@@ -55,6 +55,7 @@ public class DriverTask extends Task {
         } catch (ClassNotFoundException e) {
             throw new XeleneseException(e);
         }
+        return false;
     }
 
     public String getClassName() {

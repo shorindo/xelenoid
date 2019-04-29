@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
@@ -39,8 +40,12 @@ public class XeleneseRunner extends Runner {
     private SuiteTask suite;
     private Map<String,Task> taskMap = new HashMap<String,Task>();
 
+    /**
+     * 
+     * @param testCase
+     * @throws Exception
+     */
     public XeleneseRunner(Class<?> testCase) throws Exception {
-        suiteName = testCase.getSimpleName();
         String fileName = System.getProperty("xelenese.testcase");
         if (fileName == null) {
             throw new XeleneseException("System property[xelenese.testcase] not set.");
@@ -49,9 +54,13 @@ public class XeleneseRunner extends Runner {
             Xelenese xelenese = new Xelenese(is);
             suite = (SuiteTask)xelenese.getRoot();
             suite.init();
+            suiteName = suite.getName();
         }
     }
 
+    /**
+     * 
+     */
     @Override
     public Description getDescription() {
         Description desc = Description.createSuiteDescription(suiteName);
@@ -64,17 +73,20 @@ public class XeleneseRunner extends Runner {
         return desc;
     }
 
+    /**
+     * 
+     */
     @Override
     public void run(RunNotifier notifier) {
         Description desc = getDescription();
         for (Description child : desc.getChildren()) {
+            boolean result = false;
             notifier.fireTestStarted(child);
             try {
                 Task task = taskMap.get(child.getMethodName());
-                task.execute();
+                result = task.execute();
             } catch (Exception e) {
                 notifier.fireTestFailure(new Failure(child, e));
-                throw new RuntimeException(e);
             } finally {
                 notifier.fireTestFinished(child);
             }

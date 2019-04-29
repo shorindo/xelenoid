@@ -54,13 +54,14 @@ public class Xelenese {
     public Xelenese(InputStream is) throws XeleneseException {
         setup();
         load(is);
-        LOG.debug(suite.toString());
+        //LOG.debug(suite.toString());
     }
 
     public Task getRoot() {
         return suite;
     }
 
+    @SuppressWarnings("unchecked")
     private void setup() {
         String path = getClass().getName().replaceAll("\\.", "/") + ".class";
         URL url = getClass().getClassLoader().getResource(path);

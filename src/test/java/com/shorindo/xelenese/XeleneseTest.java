@@ -15,8 +15,6 @@
  */
 package com.shorindo.xelenese;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.InputStream;
 
@@ -32,11 +30,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * 
@@ -47,8 +40,8 @@ public class XeleneseTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
+        System.setProperty("xelenese.testcase", "src/test/resouces/xelenese-test.xml");
         System.setProperty("webdriver.chrome.driver", "./exe/chromedriver.exe");
-//        WebDriver driver = new ChromeDriver();
 
 //        tomcat = new Tomcat();
 //        tomcat.setHostname("localhost");

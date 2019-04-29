@@ -25,7 +25,7 @@ import com.shorindo.xelenese.annotation.TaskName;
  */
 @TaskName("test")
 @ChildTasks({"get", "element", "forward", "back", "click",
-    "close", "quit", "refresh", "script" })
+    "close", "quit", "refresh", "script", "wait" })
 public class TestTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TestTask.class);
     private String depends;
@@ -35,19 +35,24 @@ public class TestTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) throws XeleneseException {
+    public boolean execute(Object...args) throws XeleneseException {
+        boolean result = true;
         LOG.debug("execute()");
         try {
             for (Task task : getTaskList()) {
-                task.execute();
+                if (!task.execute()) {
+                    result = false;
+                }
             }
         } catch (Exception e) {
-            if (ON_ERROR_CONTINUE.equals(getOnError())) {
+            if (ON_ERROR_IGNORE.equals(getOnError())) {
                 LOG.error(e);
+                return false;
             } else {
                 throw e;
             }
         }
+        return result;
     }
 
     public String getDepends() {

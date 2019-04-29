@@ -30,8 +30,9 @@ public class TextTask extends Task {
     }
 
     @Override
-    public void execute(Object...args) {
+    public boolean execute(Object...args) {
         LOG.debug("execute()");
+        return false;
     }
 
 }

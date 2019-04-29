@@ -19,14 +19,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXB;
-
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.shorindo.xelenese.Xelenese;
 import com.shorindo.xelenese.XeleneseException;
-import com.shorindo.xelenese.task.SuiteTask;
 import com.shorindo.xelenese.task.Task;
 
 import javafx.scene.control.TreeCell;

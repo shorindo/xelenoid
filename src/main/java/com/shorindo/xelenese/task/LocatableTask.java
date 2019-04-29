@@ -15,7 +15,12 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+
+import com.shorindo.xelenese.XeleneseException;
 
 /**
  * 
@@ -37,6 +42,12 @@ public abstract class LocatableTask extends Task {
         super(parent);
     }
 
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        // TODO Auto-generated method stub
+        return new ArrayList<ValidationError>();
+    }
+
     public String getId() {
         return id;
     }
@@ -46,13 +57,13 @@ public abstract class LocatableTask extends Task {
         this.by = By.id(id);
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLinkText() {
         return linkText;

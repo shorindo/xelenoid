@@ -27,7 +27,6 @@ import javax.imageio.ImageIO;
 
 import net.arnx.jsonic.JSON;
 
-import com.shorindo.xelenese.XeleneseException;
 import com.sun.javafx.webkit.WebConsoleListener;
 
 import javafx.beans.value.ChangeListener;

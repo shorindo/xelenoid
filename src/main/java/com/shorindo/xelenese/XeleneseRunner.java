@@ -18,20 +18,17 @@ package com.shorindo.xelenese;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 
 import com.shorindo.xelenese.task.SuiteTask;
@@ -44,7 +41,7 @@ import com.shorindo.xelenese.task.TestTask;
 @RunWith(XeleneseRunner.class)
 public class XeleneseRunner extends Runner {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(XeleneseRunner.class);
-    private String suiteName;
+    private String suiteTitle;
     private SuiteTask suite;
     private Map<String,Task> taskMap = new HashMap<String,Task>();
     private Class<?> caseClass;
@@ -68,7 +65,7 @@ public class XeleneseRunner extends Runner {
             Xelenese xelenese = new Xelenese(is);
             suite = (SuiteTask)xelenese.getRoot();
             suite.init();
-            suiteName = suite.getName();
+            suiteTitle = suite.getTitle();
         } catch (Exception e) {
             new InitializationError(e);
         }
@@ -79,11 +76,11 @@ public class XeleneseRunner extends Runner {
      */
     @Override
     public Description getDescription() {
-        Description desc = Description.createSuiteDescription(suiteName);
+        Description desc = Description.createSuiteDescription(suiteTitle);
         for (Task task : suite.getTaskList()) {
             if (task instanceof TestTask) {
-                desc.addChild(Description.createTestDescription(suiteName, task.getName()));
-                taskMap.put(task.getName(), task);
+                desc.addChild(Description.createTestDescription(suiteTitle, task.getTitle()));
+                taskMap.put(task.getTitle(), task);
             }
         }
         return desc;

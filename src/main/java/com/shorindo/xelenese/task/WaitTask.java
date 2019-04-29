@@ -15,6 +15,10 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -24,6 +28,7 @@ import com.shorindo.xelenese.annotation.TaskName;
 @TaskName("wait")
 public class WaitTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(WaitTask.class);
+    private Long timeout;
 
     public WaitTask(Task parent) {
         super(parent);
@@ -32,6 +37,27 @@ public class WaitTask extends Task {
     @Override
     public boolean execute(Object...args) {
         LOG.debug("execute()");
-        return false;
+        try {
+            Thread.sleep(timeout);
+            return true;
+        } catch (InterruptedException e) {
+            return false;
+        }
+    }
+
+    public long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = Long.parseLong(timeout);
+    }
+
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+        if (timeout == null)
+            ;
+        return errors;
     }
 }

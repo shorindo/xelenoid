@@ -15,6 +15,9 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 
 import com.shorindo.xelenese.XeleneseException;
@@ -61,6 +64,12 @@ public class DriverTask extends Task {
             throw new XeleneseException(e);
         }
         return false;
+    }
+
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        // TODO
+        return new ArrayList<ValidationError>();
     }
 
     public String getClassName() {

@@ -15,8 +15,12 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.JavascriptExecutor;
 
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -37,5 +41,10 @@ public class ScriptTask extends Task {
         JavascriptExecutor executor = (JavascriptExecutor)getDriver();
         executor.executeScript(getText());
         return true;
+    }
+
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        return new ArrayList<ValidationError>();
     }
 }

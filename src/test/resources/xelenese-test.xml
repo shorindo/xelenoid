@@ -1,7 +1,7 @@
-<suite name="Xeleneseテスト">
+<suite title="Xeleneseテスト">
   <include src="..."/>
 
-  <template name="">
+  <template title="">
     <get/>
     <element/>
     <click/>
@@ -13,23 +13,23 @@
           driverName="webdriver.chrome.driver"
           driverExec="./exe/chromedriver.exe" />
 
-  <test name="get" depends="">
+  <test title="get" depends="">
     <get url="http://localhost:8880/"/>
   </test>
 
-  <test name="refresh">
+  <test title="refresh">
     <refresh/>
   </test>
 
-  <test name="title">
+  <test title="title">
     <title match="test"/>
   </test>
 
-  <test name="position">
+  <test title="position">
     <position top="10" left="10"/>
   </test>
 
-  <test name="element">
+  <test title="element">
     <element xpath="//A">
       <!-- 
       <keys/>
@@ -40,37 +40,37 @@
     </element>
   </test>
 
-  <test name="click">
+  <test title="click">
     <element linkText="first">
       <click/>
     </element>
     <title match="first"/>
   </test>
 
-  <test name="keys">
+  <test title="keys">
     <element tagName="textarea">
-      <keys keys="abcd"/>
+      <keys text="abcd"/>
     </element>
   </test>
 
-  <test name="back">
+  <test title="back">
     <back/>
     <title match="xelenese test suite."/>
   </test>
 
-  <test name="script">
+  <test title="script">
     <script><![CDATA[
       document.title = "hoge";
     ]]></script>
   </test>
 
-  <test name="onRrror=ignore" onError="ignore">
+  <test title="onError=ignore" onError="ignore">
     <element xpath="aaa">
       <click/>
     </element>
   </test>
 
-  <test name="onError=fail" onRrror="fail">
+  <test title="onError=fail" onError="failure">
     <element xpath="aaa">
       <click/>
     </element>

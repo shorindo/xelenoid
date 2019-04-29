@@ -15,8 +15,12 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -26,7 +30,7 @@ import com.shorindo.xelenese.annotation.TaskName;
 @TaskName("keys")
 public class KeysTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(KeysTask.class);
-    private String keys;
+    private String text;
 
     public KeysTask(Task parent) {
         super(parent);
@@ -37,19 +41,25 @@ public class KeysTask extends Task {
         LOG.debug("execute()");
         if (args != null && args.length > 0) {
             WebElement element = (WebElement)args[0];
-            element.sendKeys(keys);
+            element.sendKeys(text);
             return true;
         } else {
             return false;
         }
     }
 
-    public String getKeys() {
-        return keys;
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        // TODO Auto-generated method stub
+        return new ArrayList<ValidationError>();
     }
 
-    public void setKeys(String keys) {
-        this.keys = keys;
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
 }

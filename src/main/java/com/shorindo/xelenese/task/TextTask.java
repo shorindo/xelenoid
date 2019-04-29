@@ -15,8 +15,12 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -46,6 +50,12 @@ public class TextTask extends Task {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        // TODO Auto-generated method stub
+        return new ArrayList<ValidationError>();
     }
 
     public String getMatch() {

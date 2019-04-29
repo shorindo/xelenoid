@@ -15,8 +15,12 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -41,5 +45,10 @@ public class ClickTask extends Task {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        return new ArrayList<ValidationError>();
     }
 }

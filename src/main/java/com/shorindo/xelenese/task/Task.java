@@ -33,7 +33,7 @@ public abstract class Task {
     protected static final String ON_ERROR_FAILURE = "failure";
     protected static final String ON_ERROR_SUCCESS = "success";
     private Task parent;
-    private String name;
+    private String title;
     private StringBuilder text = new StringBuilder();
     private String onError = ON_ERROR_FAILURE;
     private List<Task> taskList = new ArrayList<Task>();
@@ -54,7 +54,13 @@ public abstract class Task {
      */
     public abstract boolean execute(Object...args) throws XeleneseException;
 
-    //public abstract void validate() throws XeleneseException;
+    /**
+     * タスクの設定値を検証する
+     * 
+     * @return TODO
+     * @throws XeleneseException
+     */
+    public abstract List<ValidationError> validate() throws XeleneseException;
 
     public final String getTaskName() {
         TaskName taskName = getClass().getAnnotation(TaskName.class);
@@ -93,12 +99,12 @@ public abstract class Task {
         return ((SuiteTask)parent).getDriver();
     }
 
-    public final void setName(String name) {
-        this.name = name;
+    public final void setTitle(String title) {
+        this.title = title;
     }
 
-    public final String getName() {
-        return name;
+    public final String getTitle() {
+        return title;
     }
 
     public void setOnError(String action) {

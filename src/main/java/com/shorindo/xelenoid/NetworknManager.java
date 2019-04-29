@@ -43,8 +43,8 @@ public class NetworknManager {
 
             @Override
             public PasswordAuthentication getPasswordAuthentication() {
-                LOG.debug(this.getRequestingURL());
-                LOG.debug(this.getRequestingPrompt());
+                LOG.debug(this.getRequestingURL().toString());
+                LOG.debug(this.getRequestingPrompt().toString());
 //                if ("utage.org".equals(getRequestingHost())) {
 //                    return new PasswordAuthentication("kazm", "7m2kvx".toCharArray());
 //                } else {

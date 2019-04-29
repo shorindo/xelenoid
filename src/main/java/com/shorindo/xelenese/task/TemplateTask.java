@@ -15,6 +15,10 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.ChildTasks;
 import com.shorindo.xelenese.annotation.TaskName;
@@ -35,6 +39,12 @@ public class TemplateTask extends Task {
     public boolean execute(Object...args) {
         LOG.debug("execute()");
         return false;
+    }
+
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        // TODO Auto-generated method stub
+        return new ArrayList<ValidationError>();
     }
 
 }

@@ -51,16 +51,28 @@ public class Xelenese {
     private Map<String, Class<Task>> taskMap = new HashMap<String, Class<Task>>();
     private Task suite;
 
+    /**
+     * 
+     * @param is
+     * @throws XeleneseException
+     */
     public Xelenese(InputStream is) throws XeleneseException {
         setup();
         load(is);
         //LOG.debug(suite.toString());
     }
 
+    /**
+     * 
+     * @return
+     */
     public Task getRoot() {
         return suite;
     }
 
+    /**
+     * 
+     */
     @SuppressWarnings("unchecked")
     private void setup() {
         String path = getClass().getName().replaceAll("\\.", "/") + ".class";
@@ -97,6 +109,11 @@ public class Xelenese {
         }
     }
 
+    /**
+     * 
+     * @param is
+     * @throws XeleneseException
+     */
     private void load(InputStream is) throws XeleneseException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -108,6 +125,12 @@ public class Xelenese {
         }
     }
 
+    /**
+     * 
+     * @param parent
+     * @param node
+     * @return
+     */
     private Task parse(Task parent, Node node) {
         String taskName = node.getNodeName();
         Class<Task> taskClass = taskMap.get(taskName);
@@ -171,15 +194,29 @@ public class Xelenese {
         return null;
     }
 
+    /**
+     * 
+     * @throws XeleneseException
+     */
     public void run() throws XeleneseException {
         suite.execute();
     }
 
+    /**
+     * 
+     * @param clazz
+     */
     public void addTask(Class<Task> clazz) {
         TaskName taskName = clazz.getAnnotation(TaskName.class);
         taskMap.put(taskName.value(), clazz);
     }
 
+    /**
+     * 
+     * @param document
+     * @return
+     * @throws IOException
+     */
     public static String dump(Document document) throws IOException {
         StringWriter writer = new StringWriter();
         JAXB.marshal(document, writer);

@@ -15,6 +15,10 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -34,5 +38,10 @@ public class CloseTask extends Task {
         LOG.debug("execute()");
         getDriver().close();
         return true;
+    }
+
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        return new ArrayList<ValidationError>();
     }
 }

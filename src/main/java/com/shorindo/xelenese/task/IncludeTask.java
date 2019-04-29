@@ -15,6 +15,10 @@
  */
 package com.shorindo.xelenese.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -36,6 +40,12 @@ public class IncludeTask extends Task {
         return false;
     }
 
+    @Override
+    public List<ValidationError> validate() throws XeleneseException {
+        // TODO Auto-generated method stub
+        return new ArrayList<ValidationError>();
+    }
+
     public String getSrc() {
         return src;
     }
@@ -43,4 +53,5 @@ public class IncludeTask extends Task {
     public void setSrc(String src) {
         this.src = src;
     }
+
 }

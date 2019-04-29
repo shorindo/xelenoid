@@ -15,41 +15,38 @@
  */
 package com.shorindo.xelenese.task;
 
-import org.openqa.selenium.WebElement;
-
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
 /**
  * 
  */
-@TaskName("keys")
-public class KeysTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(KeysTask.class);
-    private String keys;
+@TaskName("title")
+public class TitleTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TitleTask.class);
+    private String match;
 
-    public KeysTask(Task parent) {
+    public TitleTask(Task parent) {
         super(parent);
     }
 
     @Override
     public boolean execute(Object...args) {
         LOG.debug("execute()");
-        if (args != null && args.length > 0) {
-            WebElement element = (WebElement)args[0];
-            element.sendKeys(keys);
+        String title = getDriver().getTitle();
+        if (title != null && title.contains(match)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public String getKeys() {
-        return keys;
+    public String getMatch() {
+        return match;
     }
 
-    public void setKeys(String keys) {
-        this.keys = keys;
+    public void setMatch(String match) {
+        this.match = match;
     }
 
 }

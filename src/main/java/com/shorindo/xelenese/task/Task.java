@@ -30,11 +30,12 @@ import com.shorindo.xelenese.annotation.TaskName;
 public abstract class Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Task.class);
     protected static final String ON_ERROR_IGNORE = "ignore";
-    protected static final String ON_ERROR_FAIL = "fail";
+    protected static final String ON_ERROR_FAILURE = "failure";
+    protected static final String ON_ERROR_SUCCESS = "success";
     private Task parent;
     private String name;
     private StringBuilder text = new StringBuilder();
-    private String onError = ON_ERROR_FAIL;
+    private String onError = ON_ERROR_FAILURE;
     private List<Task> taskList = new ArrayList<Task>();
 
     public Task(Task parent) {

@@ -9,19 +9,20 @@
 
   <!-- driver className="com.shorindo.xelenese.MockDriver"/ -->
   <!-- driver className="org.openqa.selenium.firefox.FirefoxDriver" / -->
-  <driver className="org.openqa.selenium.chrome.ChromeDriver" />
+  <driver className="org.openqa.selenium.chrome.ChromeDriver"
+          driverName="webdriver.chrome.driver"
+          driverExec="./exe/chromedriver.exe" />
 
   <test name="get" depends="">
-    <get url="http://shorindo.com"/>
-    <!--
-    <close/>
-    <back/>
-    <forward/>
-    -->
+    <get url="http://localhost:8880/"/>
   </test>
 
   <test name="refresh">
     <refresh/>
+  </test>
+
+  <test name="title">
+    <title match="test"/>
   </test>
 
   <test name="position">
@@ -39,20 +40,39 @@
     </element>
   </test>
 
-  <test name="onerror" onError="ignore">
+  <test name="click">
+    <element linkText="first">
+      <click/>
+    </element>
+    <title match="first"/>
+  </test>
+
+  <test name="keys">
+    <element tagName="textarea">
+      <keys keys="abcd"/>
+    </element>
+  </test>
+
+  <test name="back">
+    <back/>
+    <title match="xelenese test suite."/>
+  </test>
+
+  <test name="script">
+    <script><![CDATA[
+      document.title = "hoge";
+    ]]></script>
+  </test>
+
+  <test name="onRrror=ignore" onError="ignore">
     <element xpath="aaa">
       <click/>
     </element>
   </test>
 
-  <test name="script">
-    <element className="label">
-      <wait/>
-      <text/>
+  <test name="onError=fail" onRrror="fail">
+    <element xpath="aaa">
       <click/>
     </element>
-    <script><![CDATA[
-      document.title = "hoge";
-    ]]></script>
   </test>
 </suite>

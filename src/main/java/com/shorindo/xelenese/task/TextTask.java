@@ -15,6 +15,8 @@
  */
 package com.shorindo.xelenese.task;
 
+import org.openqa.selenium.WebElement;
+
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 
@@ -24,6 +26,7 @@ import com.shorindo.xelenese.annotation.TaskName;
 @TaskName("text")
 public class TextTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(TextTask.class);
+    private String match;
 
     public TextTask(Task parent) {
         super(parent);
@@ -32,7 +35,25 @@ public class TextTask extends Task {
     @Override
     public boolean execute(Object...args) {
         LOG.debug("execute()");
-        return false;
+        if (args != null && args.length > 0) {
+            WebElement element = (WebElement)args[0];
+            String text = element.getText();
+            if (text != null && text.contains(match)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public String getMatch() {
+        return match;
+    }
+
+    public void setMatch(String match) {
+        this.match = match;
     }
 
 }

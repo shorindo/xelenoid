@@ -35,43 +35,42 @@ import org.junit.runner.RunWith;
  * 
  */
 @RunWith(XeleneseRunner.class)
+@XeleneseOptions("src/test/resources/xelenese-test.xml")
 public class XeleneseTest {
-//    private static Tomcat tomcat;
+    private static Tomcat tomcat;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        System.setProperty("xelenese.testcase", "src/test/resouces/xelenese-test.xml");
-        System.setProperty("webdriver.chrome.driver", "./exe/chromedriver.exe");
 
-//        tomcat = new Tomcat();
-//        tomcat.setHostname("localhost");
-//        tomcat.setPort(8880);
-//        tomcat.getConnector().setURIEncoding("UTF-8");
-//
-//        Context ctx = tomcat.addWebapp(null, "", new File("WebContent").getAbsolutePath());
-//        ctx.setAltDDName("WebContent/WEB-INF/web.xml");
-//        ctx.setJarScanner(new JarScanner() {
-//            @Override
-//            public void scan(JarScanType scanType, ServletContext context,
-//                    JarScannerCallback callback) {
-//            }
-//
-//            @Override
-//            public JarScanFilter getJarScanFilter() {
-//                return null;
-//            }
-//
-//            @Override
-//            public void setJarScanFilter(JarScanFilter jarScanFilter) {
-//            }
-//        });
-//
-//        tomcat.start();
+        tomcat = new Tomcat();
+        tomcat.setHostname("localhost");
+        tomcat.setPort(8880);
+        tomcat.getConnector().setURIEncoding("UTF-8");
+
+        Context ctx = tomcat.addWebapp(null, "", new File("src/test/resources/WebContent").getAbsolutePath());
+        ctx.setAltDDName("WebContent/WEB-INF/web.xml");
+        ctx.setJarScanner(new JarScanner() {
+            @Override
+            public void scan(JarScanType scanType, ServletContext context,
+                    JarScannerCallback callback) {
+            }
+
+            @Override
+            public JarScanFilter getJarScanFilter() {
+                return null;
+            }
+
+            @Override
+            public void setJarScanFilter(JarScanFilter jarScanFilter) {
+            }
+        });
+
+        tomcat.start();
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
-//        tomcat.stop();
+        tomcat.stop();
     }
 
     @Test

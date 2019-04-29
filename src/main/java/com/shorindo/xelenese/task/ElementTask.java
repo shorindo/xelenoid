@@ -28,15 +28,15 @@ import com.shorindo.xelenese.annotation.TaskName;
  */
 @TaskName("element")
 @ChildTasks({"element", "click", "keys", "verify", "assert", "wait"})
-public class ElementTask extends Task {
+public class ElementTask extends LocatableTask {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
-    private By by;
-    private String id;
-    private String className;
-    private String tagName;
-    private String xpath;
-    private String cssSelector;
-    private String linkText;
+//    private By by;
+//    private String id;
+//    private String className;
+//    private String tagName;
+//    private String xpath;
+//    private String cssSelector;
+//    private String linkText;
 
     public ElementTask(Task parent) {
         super(parent);
@@ -55,57 +55,57 @@ public class ElementTask extends Task {
         return result;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-        this.by = By.id(id);
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-        this.by = By.className(className);
-    }
-
-    public String getCssSelector() {
-        return cssSelector;
-    }
-
-    public void setCssSelector(String cssSelector) {
-        this.cssSelector = cssSelector;
-        this.by = By.cssSelector(cssSelector);
-    }
-
-    public String getXpath() {
-        return xpath;
-    }
-
-    public void setXpath(String xpath) {
-        this.xpath = xpath;
-        this.by = By.xpath(xpath);
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-    }
-
-    public String getLinkText() {
-        return linkText;
-    }
-
-    public void setLinkText(String linkText) {
-        this.linkText = linkText;
-        this.by = By.linkText(linkText);
-    }
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//        this.by = By.id(id);
+//    }
+//
+//    public String getClassName() {
+//        return className;
+//    }
+//
+//    public void setClassName(String className) {
+//        this.className = className;
+//        this.by = By.className(className);
+//    }
+//
+//    public String getCssSelector() {
+//        return cssSelector;
+//    }
+//
+//    public void setCssSelector(String cssSelector) {
+//        this.cssSelector = cssSelector;
+//        this.by = By.cssSelector(cssSelector);
+//    }
+//
+//    public String getXpath() {
+//        return xpath;
+//    }
+//
+//    public void setXpath(String xpath) {
+//        this.xpath = xpath;
+//        this.by = By.xpath(xpath);
+//    }
+//
+//    public String getTagName() {
+//        return tagName;
+//    }
+//
+//    public void setTagName(String tagName) {
+//        this.tagName = tagName;
+//    }
+//
+//    public String getLinkText() {
+//        return linkText;
+//    }
+//
+//    public void setLinkText(String linkText) {
+//        this.linkText = linkText;
+//        this.by = By.linkText(linkText);
+//    }
 
 }

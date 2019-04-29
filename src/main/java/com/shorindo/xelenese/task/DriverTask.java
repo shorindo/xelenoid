@@ -28,6 +28,8 @@ import com.shorindo.xelenese.annotation.TaskName;
 public class DriverTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(DriverTask.class);
     private String className;
+    private String driverName;
+    private String driverExec;
     private String options;
     private String capabilities;
 
@@ -39,6 +41,9 @@ public class DriverTask extends Task {
     public boolean execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
         try {
+            if (driverName != null && driverExec != null) {
+                System.setProperty(driverName, driverExec);
+            }
             WebDriver driver = (WebDriver)Class.forName(className).newInstance();
             Task parent = getParent();
             while (parent != null) {
@@ -80,6 +85,22 @@ public class DriverTask extends Task {
 
     public void setCapabilities(String capabilities) {
         this.capabilities = capabilities;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public String getDriverExec() {
+        return driverExec;
+    }
+
+    public void setDriverExec(String driverExec) {
+        this.driverExec = driverExec;
     }
 
 }

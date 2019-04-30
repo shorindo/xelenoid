@@ -18,11 +18,13 @@ package com.shorindo.xelenese;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -54,9 +56,9 @@ public class XeleneseRunner extends Runner {
     public XeleneseRunner(Class<?> caseClass) throws InitializationError {
         this.caseClass = caseClass;
         String fileName = System.getProperty("xelenese.testcase");
-        XeleneseOptions opts = caseClass.getAnnotation(XeleneseOptions.class);
-        if (opts != null) {
-            fileName = opts.value();
+        XeleneseArguments args = caseClass.getAnnotation(XeleneseArguments.class);
+        if (args != null) {
+            fileName = args.suite();
         }
         if (fileName == null) {
             throw new InitializationError("XeleneseCase annotation or system property[xelenese.testcase] not set.");
@@ -91,11 +93,35 @@ public class XeleneseRunner extends Runner {
      */
     @Override
     public void run(RunNotifier notifier) {
+        runAnnotation(BeforeClass.class);
+        Description desc = getDescription();
+        for (Description child : desc.getChildren()) {
+            notifier.fireTestStarted(child);
+            try {
+                Task task = taskMap.get(child.getMethodName());
+                if (!task.execute()) {
+                    notifier.fireTestFailure(new Failure(child, new AssertionError(task.getClass().getSimpleName())));
+                }
+            } catch (Exception e) {
+                notifier.fireTestFailure(new Failure(child, e));
+            } finally {
+                notifier.fireTestFinished(child);
+            }
+        }
+        runAnnotation(AfterClass.class);
+    }
+
+    /**
+     * アノテーションを付与されたメソッドを実行する
+     * 
+     * @param annotationClass アノテーションクラス
+     */
+    private <T extends Annotation> void runAnnotation(Class<T> annotationClass) {
         try {
             Object caseObject = caseClass.newInstance();
             for (Method method : caseClass.getMethods()) {
-                BeforeClass beforeClass = method.getAnnotation(BeforeClass.class);
-                if (beforeClass != null) {
+                T clazz = method.getAnnotation(annotationClass);
+                if (clazz != null) {
                     method.invoke(caseObject);
                 }
             }
@@ -108,20 +134,5 @@ public class XeleneseRunner extends Runner {
         } catch (InvocationTargetException e) {
             LOG.error(e);
         }
-        Description desc = getDescription();
-        for (Description child : desc.getChildren()) {
-            notifier.fireTestStarted(child);
-            try {
-                Task task = taskMap.get(child.getMethodName());
-                if (!task.execute()) {
-                    notifier.fireTestFailure(new Failure(child, new AssertionError()));
-                }
-            } catch (Exception e) {
-                notifier.fireTestFailure(new Failure(child, e));
-            } finally {
-                notifier.fireTestFinished(child);
-            }
-        }
     }
-
 }

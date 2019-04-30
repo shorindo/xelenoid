@@ -35,8 +35,9 @@ import org.junit.runner.RunWith;
  * 
  */
 @RunWith(XeleneseRunner.class)
-@XeleneseOptions("src/test/resources/xelenese-test.xml")
+@XeleneseArguments(suite = "src/test/resources/xelenese-test.xml")
 public class XeleneseTest {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(XeleneseTest.class);
     private static Tomcat tomcat;
 
     @BeforeClass
@@ -66,22 +67,13 @@ public class XeleneseTest {
         });
 
         tomcat.start();
+        LOG.info("Tomcat started.");
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
         tomcat.stop();
-    }
-
-    @Test
-    public void test() throws Exception {
-        InputStream is = getClass().getClassLoader().getResourceAsStream("xelenese-test.xml");
-        try {
-            Xelenese xelenese = new Xelenese(is);
-            xelenese.run();
-        } finally {
-            is.close();
-        }
+        LOG.info("Tomcat finished.");
     }
 
 }

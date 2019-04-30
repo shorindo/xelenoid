@@ -15,18 +15,22 @@
 
   <test title="get" depends="">
     <get url="http://localhost:8880/"/>
+    <wait timeout="500"/>
   </test>
 
   <test title="refresh">
     <refresh/>
+    <wait timeout="500"/>
   </test>
 
   <test title="title">
     <title match="test"/>
+    <wait timeout="500"/>
   </test>
 
   <test title="position">
     <position top="10" left="10"/>
+    <wait timeout="500"/>
   </test>
 
   <test title="element">
@@ -75,4 +79,9 @@
       <click/>
     </element>
   </test>
+
+  <test title="re-get" depends="">
+    <get url="http://localhost:8880/"/>
+  </test>
+
 </suite>

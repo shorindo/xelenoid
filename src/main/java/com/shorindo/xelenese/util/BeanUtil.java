@@ -36,9 +36,9 @@ public class BeanUtil {
     private static final Pattern SNAKE_PATTERN = Pattern.compile("_*([^_])([^_]*)");
     private static final Pattern CAMEL_PATTERN = Pattern.compile("(.[^A-Z0-9]*)");
     private static final Pattern BEAN_PATTERN = Pattern.compile("\\.?([^\\.\\[\\s]+)(\\[([^\\]]+)\\])?");
-    private static final String DOCS_0004 = "bean[{0}]の値がセットされていないため、デフォルト値[{1}]を使用します。";
-    private static final String DOCS_5005 = "プロパティ[{0}]がありません。";
-    private static final String DOCS_5007 = "プロパティ名の指定[{0}]に誤りがあります。";
+    private static final String DOCS_0004 = "bean[{}]の値がセットされていないため、デフォルト値[{1}]を使用します。";
+    private static final String DOCS_5005 = "プロパティ[{}]がありません。";
+    private static final String DOCS_5007 = "プロパティ名の指定[{}]に誤りがあります。";
 
     /**
      * 

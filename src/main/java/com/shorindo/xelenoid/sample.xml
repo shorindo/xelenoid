@@ -3,13 +3,13 @@
 
   <include src="..."/>
 
-  <template name="">
+  <template title="">
     <get/>
     <element/>
     <click/>
   </template>
 
-  <test name="" depends="">
+  <test title="" depends="">
     <get url=""/>
     <close/>
     <quit/>
@@ -26,7 +26,7 @@
     </element>
   </test>
 
-  <test name="">
+  <test title="">
     <script><![CDATA[
       window.title = "hoge";
     ]]></script>

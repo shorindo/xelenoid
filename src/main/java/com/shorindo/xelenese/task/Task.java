@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Shorindo, Inc.
+ * Copyright 2018-2019 Shorindo, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public abstract class Task {
     /**
      * タスクの設定値を検証する
      * 
-     * @return TODO
+     * @return 検証エラーのリスト。検証OKなら空のリストとなる。
      * @throws XeleneseException
      */
     public abstract List<ValidationError> validate() throws XeleneseException;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Shorindo, Inc.
+ * Copyright 2018-2019 Shorindo, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,10 @@
  */
 package com.shorindo.xelenese;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +35,24 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.shorindo.xelenese.annotation.TaskName;
+import com.shorindo.xelenese.task.BackTask;
+import com.shorindo.xelenese.task.ClickTask;
+import com.shorindo.xelenese.task.CloseTask;
+import com.shorindo.xelenese.task.DriverTask;
+import com.shorindo.xelenese.task.ElementTask;
+import com.shorindo.xelenese.task.ForwardTask;
+import com.shorindo.xelenese.task.GetTask;
+import com.shorindo.xelenese.task.IncludeTask;
+import com.shorindo.xelenese.task.KeysTask;
+import com.shorindo.xelenese.task.QuitTask;
+import com.shorindo.xelenese.task.RefreshTask;
+import com.shorindo.xelenese.task.ScriptTask;
 import com.shorindo.xelenese.task.SuiteTask;
 import com.shorindo.xelenese.task.Task;
+import com.shorindo.xelenese.task.TemplateTask;
+import com.shorindo.xelenese.task.TestTask;
+import com.shorindo.xelenese.task.TitleTask;
+import com.shorindo.xelenese.task.WaitTask;
 import com.shorindo.xelenese.util.BeanUtil;
 import com.shorindo.xelenese.util.BeanUtil.BeanNotFoundException;
 
@@ -48,8 +61,29 @@ import com.shorindo.xelenese.util.BeanUtil.BeanNotFoundException;
  */
 public class Xelenese {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(Xelenese.class);
-    private Map<String, Class<Task>> taskMap = new HashMap<String, Class<Task>>();
     private Task suite;
+    private Map<String, Class<? extends Task>> taskMap = new HashMap<String, Class<? extends Task>>() {
+        private static final long serialVersionUID = 1L;
+        {
+            put("back", BackTask.class);
+            put("click", ClickTask.class);
+            put("close", CloseTask.class);
+            put("driver", DriverTask.class);
+            put("element", ElementTask.class);
+            put("forward", ForwardTask.class);
+            put("get", GetTask.class);
+            put("include", IncludeTask.class);
+            put("keys", KeysTask.class);
+            put("quit", QuitTask.class);
+            put("refresh", RefreshTask.class);
+            put("script", ScriptTask.class);
+            put("suite", SuiteTask.class);
+            put("template", TemplateTask.class);
+            put("test", TestTask.class);
+            put("title", TitleTask.class);
+            put("wait", WaitTask.class);
+        }
+    };
 
     /**
      * 
@@ -57,9 +91,7 @@ public class Xelenese {
      * @throws XeleneseException
      */
     public Xelenese(InputStream is) throws XeleneseException {
-        setup();
         load(is);
-        //LOG.debug(suite.toString());
     }
 
     /**
@@ -68,45 +100,6 @@ public class Xelenese {
      */
     public Task getRoot() {
         return suite;
-    }
-
-    /**
-     * 
-     */
-    @SuppressWarnings("unchecked")
-    private void setup() {
-        String path = getClass().getName().replaceAll("\\.", "/") + ".class";
-        URL url = getClass().getClassLoader().getResource(path);
-        int prefix = url.getFile().length() - path.length();
-        File dir = new File(new File(url.getFile()).getParentFile(), "task");
-        for (File file : dir.listFiles()) {
-            try {
-                String absPath = file.toURI().toURL().getFile();
-                if (absPath.endsWith(".class")) {
-                    String className = absPath
-                            .substring(prefix)
-                            .replaceAll(".class$", "")
-                            .replaceAll("/", ".");
-                    Class<?> clazz = getClass().getClassLoader().loadClass(className);
-                    if (Task.class == clazz) {
-                        continue;
-                    }
-                    if (!Task.class.isAssignableFrom(clazz)) {
-                        continue;
-                    }
-                    TaskName taskName = clazz.getAnnotation(TaskName.class);
-                    if (taskName == null) {
-                        LOG.warn("[{0}] has no TaskName annotation.", clazz.getName());
-                        continue;
-                    }
-                    taskMap.put(taskName.value(), (Class<Task>)clazz);
-                }
-            } catch (MalformedURLException e) {
-                LOG.error(e);
-            } catch (ClassNotFoundException e) {
-                LOG.error(e);
-            }
-        }
     }
 
     /**
@@ -133,10 +126,10 @@ public class Xelenese {
      */
     private Task parse(Task parent, Node node) {
         String taskName = node.getNodeName();
-        Class<Task> taskClass = taskMap.get(taskName);
+        Class<? extends Task> taskClass = taskMap.get(taskName);
 
         if (taskClass == null) {
-            LOG.warn("[{0}] is unknown.", taskName);
+            LOG.warn("[{}] is unknown.", taskName);
             return null;
         }
 

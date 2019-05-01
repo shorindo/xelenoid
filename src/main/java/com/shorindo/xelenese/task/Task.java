@@ -38,6 +38,11 @@ public abstract class Task {
     private String onError = ON_ERROR_FAILURE;
     private List<Task> taskList = new ArrayList<Task>();
 
+    /**
+     * コンストラクタ
+     * 
+     * @param parent 親タスク
+     */
     public Task(Task parent) {
         this.parent = parent;
         if (parent != null) {
@@ -52,7 +57,7 @@ public abstract class Task {
      * @return タスクが成功したらtrue、失敗したらfalseを返す
      * @throws XeleneseException
      */
-    public abstract boolean execute(Object...args) throws XeleneseException;
+    public abstract List<ExecutionError> execute(Object...args) throws XeleneseException;
 
     /**
      * タスクの設定値を検証する

@@ -22,6 +22,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.AfterClass;
@@ -33,6 +34,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 
+import com.shorindo.xelenese.task.ExecutionError;
 import com.shorindo.xelenese.task.SuiteTask;
 import com.shorindo.xelenese.task.Task;
 import com.shorindo.xelenese.task.TestTask;
@@ -99,7 +101,8 @@ public class XeleneseRunner extends Runner {
             notifier.fireTestStarted(child);
             try {
                 Task task = taskMap.get(child.getMethodName());
-                if (!task.execute()) {
+                List<ExecutionError> errors = task.execute();
+                if (errors.size() > 0) {
                     notifier.fireTestFailure(new Failure(child, new AssertionError(task.getClass().getSimpleName())));
                 }
             } catch (Exception e) {

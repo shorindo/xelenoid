@@ -41,8 +41,9 @@ public class DriverTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) throws XeleneseException {
+    public List<ExecutionError> execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             if (driverName != null && driverExec != null) {
                 System.setProperty(driverName, driverExec);
@@ -52,7 +53,7 @@ public class DriverTask extends Task {
             while (parent != null) {
                 if (parent instanceof SuiteTask) {
                     ((SuiteTask)parent).setDriver(driver);
-                    return true;
+                    return errors;
                 }
                 parent = parent.getParent();
             }
@@ -63,7 +64,7 @@ public class DriverTask extends Task {
         } catch (ClassNotFoundException e) {
             throw new XeleneseException(e);
         }
-        return false;
+        return errors;
     }
 
     @Override

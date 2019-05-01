@@ -37,19 +37,19 @@ public class TextTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
         if (args != null && args.length > 0) {
             WebElement element = (WebElement)args[0];
             String text = element.getText();
-            if (text != null && text.contains(match)) {
-                return true;
-            } else {
-                return false;
+            if (text == null || !text.contains(match)) {
+                errors.add(new ExecutionError(this, "element has no matching text:" + text));
             }
         } else {
-            return false;
+            errors.add(new ExecutionError(this, "no element specified."));
         }
+        return errors;
     }
 
     @Override

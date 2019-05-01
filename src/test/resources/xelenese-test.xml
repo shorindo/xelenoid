@@ -57,6 +57,12 @@
     </element>
   </test>
 
+  <test title="text">
+    <element tagName="h1">
+      <text match="First page"/>
+    </element>
+  </test>
+
   <test title="back">
     <back/>
     <title match="xelenese test suite."/>

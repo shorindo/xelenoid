@@ -35,14 +35,15 @@ public class WaitTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             Thread.sleep(timeout);
-            return true;
         } catch (InterruptedException e) {
-            return false;
+            errors.add(new ExecutionError(this, e));
         }
+        return errors;
     }
 
     public long getTimeout() {

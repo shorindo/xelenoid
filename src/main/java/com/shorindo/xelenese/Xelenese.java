@@ -51,6 +51,7 @@ import com.shorindo.xelenese.task.SuiteTask;
 import com.shorindo.xelenese.task.Task;
 import com.shorindo.xelenese.task.TemplateTask;
 import com.shorindo.xelenese.task.TestTask;
+import com.shorindo.xelenese.task.TextTask;
 import com.shorindo.xelenese.task.TitleTask;
 import com.shorindo.xelenese.task.WaitTask;
 import com.shorindo.xelenese.util.BeanUtil;
@@ -80,6 +81,7 @@ public class Xelenese {
             put("suite", SuiteTask.class);
             put("template", TemplateTask.class);
             put("test", TestTask.class);
+            put("text", TextTask.class);
             put("title", TitleTask.class);
             put("wait", WaitTask.class);
         }
@@ -195,14 +197,14 @@ public class Xelenese {
         suite.execute();
     }
 
-    /**
-     * 
-     * @param clazz
-     */
-    public void addTask(Class<Task> clazz) {
-        TaskName taskName = clazz.getAnnotation(TaskName.class);
-        taskMap.put(taskName.value(), clazz);
-    }
+//    /**
+//     * 
+//     * @param clazz
+//     */
+//    public void addTask(Class<Task> clazz) {
+//        TaskName taskName = clazz.getAnnotation(TaskName.class);
+//        taskMap.put(taskName.value(), clazz);
+//    }
 
     /**
      * 

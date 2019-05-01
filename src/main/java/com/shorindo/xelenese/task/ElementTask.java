@@ -38,16 +38,18 @@ public class ElementTask extends LocatableTask {
     }
 
     @Override
-    public boolean execute(Object...args) throws XeleneseException {
-        boolean result = true;
+    public List<ExecutionError> execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
-        WebElement element = getDriver().findElement(by);
-        for (Task task : getTaskList()) {
-            if (!task.execute(element)) {
-                result = false;
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
+        try {
+            WebElement element = getDriver().findElement(by);
+            for (Task task : getTaskList()) {
+                errors.addAll(task.execute(element));
             }
+        } catch (Exception e) {
+            errors.add(new ExecutionError(this, e));
         }
-        return result;
+        return errors;
     }
 
     @Override

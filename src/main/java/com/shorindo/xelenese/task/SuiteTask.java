@@ -18,6 +18,7 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import com.shorindo.xelenese.XeleneseException;
@@ -39,11 +40,16 @@ public class SuiteTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) throws XeleneseException {
+    public List<ExecutionError> execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
-        init();
-        run();
-        return true;
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
+        try {
+            init();
+            run();
+        } catch (Exception e) {
+            errors.add(new ExecutionError(this, e));
+        }
+        return errors;
     }
 
     @Override

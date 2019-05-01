@@ -41,14 +41,14 @@ public class TitleTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
         String title = getDriver().getTitle();
-        if (title != null && title.contains(match)) {
-            return true;
-        } else {
-            return false;
+        if (title == null || !title.contains(match)) {
+            errors.add(new ExecutionError(this, "element has no matching text:" + title));
         }
+        return errors;
     }
 
     public String getMatch() {

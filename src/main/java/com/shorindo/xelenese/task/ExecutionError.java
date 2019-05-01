@@ -19,6 +19,25 @@ package com.shorindo.xelenese.task;
  * 
  */
 @SuppressWarnings("serial")
-public class ValidationError extends Error {
+public class ExecutionError extends Error {
+    private Task task;
 
+    public ExecutionError(Task task, String message, Throwable cause) {
+        super(message, cause);
+        this.task = task;
+    }
+
+    public ExecutionError(Task task, String message) {
+        super(message);
+        this.task = task;
+    }
+
+    public ExecutionError(Task task, Throwable cause) {
+        super(cause);
+        this.task = task;
+    }
+
+    public Task getTask() {
+        return task;
+    }
 }

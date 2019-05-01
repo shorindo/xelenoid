@@ -34,10 +34,15 @@ public class ForwardTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
-        getDriver().navigate().forward();
-        return true;
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
+        try {
+            getDriver().navigate().forward();
+        } catch (Exception e) {
+            errors.add(new ExecutionError(this, e));
+        }
+        return errors;
     }
 
     @Override

@@ -34,9 +34,9 @@ public class CallTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
-        return false;
+        return null;
     }
 
     @Override

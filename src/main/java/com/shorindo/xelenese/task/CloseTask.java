@@ -34,10 +34,15 @@ public class CloseTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
-        getDriver().close();
-        return true;
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
+        try {
+            getDriver().close();
+        } catch (Exception e) {
+            errors.add(new ExecutionError(this, e));
+        }
+        return errors;
     }
 
     @Override

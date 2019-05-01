@@ -18,6 +18,8 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.WebElement;
+
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
@@ -34,10 +36,15 @@ public class QuitTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
-        getDriver().quit();
-        return true;
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
+        try {
+            getDriver().quit();
+        } catch (Exception e) {
+            errors.add(new ExecutionError(this, e));
+        }
+        return errors;
     }
 
     @Override

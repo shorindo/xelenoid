@@ -38,24 +38,22 @@ public class TestTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) throws XeleneseException {
-        boolean result = true;
+    public List<ExecutionError> execute(Object...args) throws XeleneseException {
         LOG.debug("execute()");
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             for (Task task : getTaskList()) {
-                if (!task.execute()) {
-                    result = false;
-                }
+                errors.addAll(task.execute());
             }
         } catch (Exception e) {
+            errors.add(new ExecutionError(this, e));
             if (ON_ERROR_IGNORE.equals(getOnError())) {
                 LOG.error(e);
-                return false;
             } else {
                 throw e;
             }
         }
-        return result;
+        return errors;
     }
 
     @Override

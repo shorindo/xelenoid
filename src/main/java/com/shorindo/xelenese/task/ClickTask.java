@@ -36,15 +36,16 @@ public class ClickTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute(" + args[0] + ")");
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
         if (args != null && args.length > 0) {
             WebElement element = (WebElement)args[0];
             element.click();
-            return true;
         } else {
-            return false;
+            errors.add(new ExecutionError(this, "no element specified."));
         }
+        return errors;
     }
 
     @Override

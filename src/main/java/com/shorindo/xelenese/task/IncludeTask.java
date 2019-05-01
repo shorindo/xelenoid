@@ -35,9 +35,10 @@ public class IncludeTask extends Task {
     }
 
     @Override
-    public boolean execute(Object...args) {
+    public List<ExecutionError> execute(Object...args) {
         LOG.debug("execute()");
-        return false;
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
+        return errors;
     }
 
     @Override

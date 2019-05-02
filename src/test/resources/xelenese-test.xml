@@ -44,6 +44,10 @@
     </element>
   </test>
 
+  <test title="element-not-present">
+    <element xpath="//ABC" present="false"/>
+  </test>
+
   <test title="click">
     <element linkText="first">
       <click/>

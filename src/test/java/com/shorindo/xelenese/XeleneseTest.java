@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Shorindo, Inc.
+ * Copyright 2019 Shorindo, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,65 +15,59 @@
  */
 package com.shorindo.xelenese;
 
-import java.io.File;
-import java.io.InputStream;
+import static org.junit.Assert.*;
 
-import javax.servlet.ServletContext;
+import java.io.ByteArrayInputStream;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.startup.Tomcat;
-import org.apache.tomcat.JarScanFilter;
-import org.apache.tomcat.JarScanType;
-import org.apache.tomcat.JarScanner;
-import org.apache.tomcat.JarScannerCallback;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import com.shorindo.xelenese.task.SuiteTask;
+import com.shorindo.xelenese.task.Task;
 
 /**
  * 
  */
-@RunWith(XeleneseRunner.class)
-@XeleneseArguments(suite = "src/test/resources/xelenese-test.xml")
 public class XeleneseTest {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(XeleneseTest.class);
-    private static Tomcat tomcat;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-
-        tomcat = new Tomcat();
-        tomcat.setHostname("localhost");
-        tomcat.setPort(8880);
-        tomcat.getConnector().setURIEncoding("UTF-8");
-
-        Context ctx = tomcat.addWebapp(null, "", new File("src/test/resources/WebContent").getAbsolutePath());
-        ctx.setAltDDName("WebContent/WEB-INF/web.xml");
-        ctx.setJarScanner(new JarScanner() {
-            @Override
-            public void scan(JarScanType scanType, ServletContext context,
-                    JarScannerCallback callback) {
-            }
-
-            @Override
-            public JarScanFilter getJarScanFilter() {
-                return null;
-            }
-
-            @Override
-            public void setJarScanFilter(JarScanFilter jarScanFilter) {
-            }
-        });
-
-        tomcat.start();
-        LOG.info("Tomcat started.");
+    @Test
+    public void testSuite() throws Exception {
+        Task suite = load("<suite></suite>");
+        assertEquals(SuiteTask.class, suite.getClass());
+        assertEquals("suite", suite.getTaskName());
     }
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        tomcat.stop();
-        LOG.info("Tomcat finished.");
+    @Test
+    public void testSuiteTitle() throws Exception {
+        Task suite = load("<suite title='title'></suite>");
+        assertEquals("title", suite.getTitle());
     }
 
+    @Test
+    public void testSuiteText() throws Exception {
+        Task suite = load("<suite>text</suite>");
+        assertEquals("text", suite.getText());
+    }
+
+    @Test
+    public void testSuiteOnError() throws Exception {
+        Task suite = load("<suite onError='ignore'></suite>");
+        assertEquals("ignore", suite.getOnError());
+    }
+
+    @Test
+    public void testSuiteUnknownAttr() throws Exception {
+        Task suite = load("<suite foo='bar'></suite>");
+    }
+
+    @Test
+    public void testUnkownTag() throws Exception {
+        Task suite = load("<foo></foo>");
+    }
+
+    private Task load(String suite) throws Exception {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(suite.getBytes())) {
+            Xelenese xelenese = new Xelenese(bais);
+            return xelenese.getRoot();
+        }
+    }
 }

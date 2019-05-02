@@ -18,6 +18,7 @@ package com.shorindo.xelenese.util;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -36,9 +37,9 @@ public class BeanUtil {
     private static final Pattern SNAKE_PATTERN = Pattern.compile("_*([^_])([^_]*)");
     private static final Pattern CAMEL_PATTERN = Pattern.compile("(.[^A-Z0-9]*)");
     private static final Pattern BEAN_PATTERN = Pattern.compile("\\.?([^\\.\\[\\s]+)(\\[([^\\]]+)\\])?");
-    private static final String DOCS_0004 = "bean[{}]の値がセットされていないため、デフォルト値[{1}]を使用します。";
-    private static final String DOCS_5005 = "プロパティ[{}]がありません。";
-    private static final String DOCS_5007 = "プロパティ名の指定[{}]に誤りがあります。";
+    private static final String BEAN_001 = "bean[{0}]の値がセットされていないため、デフォルト値[{1}]を使用します。";
+    private static final String BEAN_002 = "プロパティ[{0}]がありません。";
+    private static final String BEAN_003 = "プロパティ名の指定[{0}]に誤りがあります。";
 
     /**
      * 
@@ -127,7 +128,7 @@ public class BeanUtil {
 
         while (m.find(start)) {
             if (m.start() != start) {
-                throw new BeanNotFoundException(DOCS_5007);
+                throw new BeanNotFoundException(BEAN_003);
             }
 
             // 最後の項目はset
@@ -141,12 +142,12 @@ public class BeanUtil {
             } else {
                 bean = getProperty(bean, m.group(1));
                 if (bean == null && end != name.length()) {
-                    throw new BeanNotFoundException(DOCS_5005 + ":" + m.group(1));
+                    throw new BeanNotFoundException(MessageFormat.format(BEAN_002, m.group(1)));
                 }
                 if (m.group(3) != null) {
                     bean = getProperty(bean, m.group(3));
                     if (bean == null && end != name.length()) {
-                        throw new BeanNotFoundException(DOCS_5005 + ":" + m.group(3));
+                        throw new BeanNotFoundException(MessageFormat.format(BEAN_002, m.group(3)));
                     }
                 }
             }
@@ -154,7 +155,7 @@ public class BeanUtil {
         }
 
         if (start != end) {
-            throw new BeanNotFoundException(DOCS_5007);
+            throw new BeanNotFoundException(BEAN_003);
         }
     }
 
@@ -182,24 +183,24 @@ public class BeanUtil {
 
         while (m.find(start)) {
             if (m.start() != start) {
-                throw new BeanNotFoundException(DOCS_5007);
+                throw new BeanNotFoundException(BEAN_003);
             }
 
             bean = getProperty(bean, m.group(1));
             if (bean == null && end != name.length()) {
-                throw new BeanNotFoundException(DOCS_5005 + ":" + m.group(1));
+                throw new BeanNotFoundException(BEAN_002 + ":" + m.group(1));
             }
             if (m.group(3) != null) {
                 bean = getProperty(bean, m.group(3));
                 if (bean == null && end != name.length()) {
-                    throw new BeanNotFoundException(DOCS_5005 + ":" + m.group(3));
+                    throw new BeanNotFoundException(BEAN_002 + ":" + m.group(3));
                 }
             }
             start = end = m.end();
         }
 
         if (start != end) {
-            throw new BeanNotFoundException(DOCS_5007);
+            throw new BeanNotFoundException(BEAN_003);
         }
 
         return bean;
@@ -216,7 +217,7 @@ public class BeanUtil {
         try {
             return getValue(bean, name);
         } catch (BeanNotFoundException e) {
-            LOG.info(DOCS_0004);
+            LOG.info(BEAN_001);
             return defaultValue;
         }
     }
@@ -305,7 +306,7 @@ public class BeanUtil {
                     Method method = bean.getClass().getMethod(setterName, targetType);
                     method.invoke(bean, value);
                 } catch (Exception ex) {
-                    throw new BeanNotFoundException(DOCS_5005 + ":" + name, ex);
+                    throw new BeanNotFoundException(MessageFormat.format(BEAN_002, name), ex);
                 }
             }
         }
@@ -338,7 +339,7 @@ public class BeanUtil {
                     if (!field.isAccessible()) field.setAccessible(true);
                     return field.get(bean);
                 } catch (Exception ex) {
-                    throw new BeanNotFoundException(DOCS_5005 + ":" + name, ex);
+                    throw new BeanNotFoundException(BEAN_002 + ":" + name, ex);
                 }
             }
         }

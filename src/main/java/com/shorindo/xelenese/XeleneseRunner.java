@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,10 +104,14 @@ public class XeleneseRunner extends Runner {
                 Task task = taskMap.get(child.getMethodName());
                 List<ExecutionError> errors = task.execute();
                 if (errors.size() > 0) {
-                    notifier.fireTestFailure(new Failure(child, new AssertionError(task.getClass().getSimpleName())));
+                    StringBuilder sb = new StringBuilder();
+                    for (ExecutionError e : errors) {
+                        sb.append(e.getMessage() + "\n");
+                    }
+                    notifier.fireTestFailure(new Failure(child, new AssertionError(sb.toString())));
                 }
-            } catch (Exception e) {
-                notifier.fireTestFailure(new Failure(child, e));
+            } catch (Throwable th) {
+                notifier.fireTestFailure(new Failure(child, th));
             } finally {
                 notifier.fireTestFinished(child);
             }
@@ -121,15 +126,16 @@ public class XeleneseRunner extends Runner {
      */
     private <T extends Annotation> void runAnnotation(Class<T> annotationClass) {
         try {
-            Object caseObject = caseClass.newInstance();
             for (Method method : caseClass.getMethods()) {
                 T clazz = method.getAnnotation(annotationClass);
-                if (clazz != null) {
-                    method.invoke(caseObject);
+                if (clazz == null) {
+                    continue;
                 }
+                if (!Modifier.isStatic(method.getModifiers())) {
+                    throw new IllegalArgumentException("[" + method + "] is not static.");
+                }
+                method.invoke(null);
             }
-        } catch (InstantiationException e) {
-            LOG.error(e);
         } catch (IllegalAccessException e) {
             LOG.error(e);
         } catch (IllegalArgumentException e) {

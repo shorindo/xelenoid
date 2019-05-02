@@ -45,12 +45,12 @@ public class TestTask extends Task {
             for (Task task : getTaskList()) {
                 errors.addAll(task.execute());
             }
-        } catch (Exception e) {
-            errors.add(new ExecutionError(this, e));
+        } catch (Throwable th) {
+            errors.add(new ExecutionError(this, th));
             if (ON_ERROR_IGNORE.equals(getOnError())) {
-                LOG.error(e);
+                LOG.error(th);
             } else {
-                throw e;
+                throw th;
             }
         }
         return errors;

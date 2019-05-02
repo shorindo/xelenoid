@@ -37,11 +37,23 @@ public class XeleneseLogger {
         logger.log(level.getLevel(), message, args);
     }
 
+    private void log(XeleneseLoggerLevel level, XeleneseMessages message, Object...args) {
+        logger.log(level.getLevel(), message.getMessage(args));
+    }
+
     private void log(XeleneseLoggerLevel level, String message, Throwable th, Object...args) {
         logger.log(level.getLevel(), message, th, args);
     }
 
+    private void log(XeleneseLoggerLevel level, XeleneseMessages message, Throwable th, Object...args) {
+        logger.log(level.getLevel(), message.getMessage(args), th);
+    }
+
     public void debug(String message, Object...args) {
+        log(XeleneseLoggerLevel.DEBUG, message, args);
+    }
+
+    public void debug(XeleneseMessages message, Object...args) {
         log(XeleneseLoggerLevel.DEBUG, message, args);
     }
 
@@ -49,7 +61,15 @@ public class XeleneseLogger {
         log(XeleneseLoggerLevel.INFO, message, args);
     }
 
+    public void info(XeleneseMessages message, Object...args) {
+        log(XeleneseLoggerLevel.INFO, message, args);
+    }
+
     public void warn(String message, Object...args) {
+        log(XeleneseLoggerLevel.WARN, message, args);
+    }
+
+    public void warn(XeleneseMessages message, Object...args) {
         log(XeleneseLoggerLevel.WARN, message, args);
     }
 
@@ -59,7 +79,10 @@ public class XeleneseLogger {
 
     public void error(Throwable th) {
         log(XeleneseLoggerLevel.ERROR, th.getMessage(), th);
-        th.printStackTrace(System.out);
+    }
+
+    public void error(XeleneseMessages message, Throwable th, Object...args) {
+        log(XeleneseLoggerLevel.ERROR, message, th, args);
     }
 
     private enum XeleneseLoggerLevel {

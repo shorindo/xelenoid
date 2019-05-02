@@ -104,6 +104,13 @@ public abstract class Task {
         return ((SuiteTask)parent).getDriver();
     }
 
+    /**
+     * TODO
+     */
+    public final void handleError(String message) {
+        ExecutionError ex = new ExecutionError(this, message);
+    }
+
     public final void setTitle(String title) {
         this.title = title;
     }

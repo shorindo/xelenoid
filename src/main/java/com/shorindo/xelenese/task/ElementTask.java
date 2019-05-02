@@ -18,6 +18,7 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import com.shorindo.xelenese.XeleneseException;
@@ -32,6 +33,7 @@ import com.shorindo.xelenese.annotation.TaskName;
 @ChildTasks({"element", "click", "keys", "verify", "assert", "wait"})
 public class ElementTask extends LocatableTask {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
+    private boolean present = true;
 
     public ElementTask(Task parent) {
         super(parent);
@@ -42,12 +44,35 @@ public class ElementTask extends LocatableTask {
         LOG.debug("execute()");
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
-            WebElement element = getDriver().findElement(by);
-            for (Task task : getTaskList()) {
-                errors.addAll(task.execute(element));
+            List<WebElement> elements = getDriver().findElements(by);
+            if (present) {
+                if (elements.size() > 0) {
+                    for (WebElement element : elements) {
+                        for (Task task : getTaskList()) {
+                            errors.addAll(task.execute(element));
+                        }
+                    }
+                } else {
+                    throw new ExecutionError(this, "");
+                }
+            } else {
+                if (elements.size() > 0) {
+                    ExecutionError e = new ExecutionError(this, "");
+                    LOG.error(e);
+                    errors.add(e);
+                    if (!ON_ERROR_IGNORE.equals(getOnError())) {
+                        throw e;
+                    }
+                } else {
+                    
+                }
             }
-        } catch (Exception e) {
-            errors.add(new ExecutionError(this, e));
+        } catch (Throwable th) {
+            LOG.error(th);
+            errors.add(new ExecutionError(this, th));
+            if (!ON_ERROR_IGNORE.equals(getOnError())) {
+                throw th;
+            }
         }
         return errors;
     }
@@ -56,6 +81,20 @@ public class ElementTask extends LocatableTask {
     public List<ValidationError> validate() throws XeleneseException {
         // TODO Auto-generated method stub
         return new ArrayList<ValidationError>();
+    }
+
+    public boolean getPresent() {
+        return present;
+    }
+
+    public void setPresent(String present) {
+        if ("true".equals(present)) {
+            this.present = true;
+        } else if ("false".equals(present)) {
+            this.present = false;
+        } else {
+            LOG.warn("Invalid present property:{}", present);
+        }
     }
 
 }

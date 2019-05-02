@@ -197,15 +197,6 @@ public class Xelenese {
         suite.execute();
     }
 
-//    /**
-//     * 
-//     * @param clazz
-//     */
-//    public void addTask(Class<Task> clazz) {
-//        TaskName taskName = clazz.getAnnotation(TaskName.class);
-//        taskMap.put(taskName.value(), clazz);
-//    }
-
     /**
      * 
      * @param document

@@ -18,6 +18,8 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.ChildTasks;
@@ -39,7 +41,7 @@ public class TestTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) throws XeleneseException {
-        LOG.debug("execute()");
+        LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             for (Task task : getTaskList()) {

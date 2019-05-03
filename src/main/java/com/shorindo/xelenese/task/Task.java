@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
@@ -67,6 +69,11 @@ public abstract class Task {
      */
     public abstract List<ValidationError> validate() throws XeleneseException;
 
+    /**
+     * タスク名(タグ名)を返す
+     * 
+     * @return タスク名(タグ名)
+     */
     public final String getTaskName() {
         TaskName taskName = getClass().getAnnotation(TaskName.class);
         if (taskName != null) {
@@ -128,18 +135,12 @@ public abstract class Task {
     }
 
     public String toString() {
-        return toString(0);
-    }
-
-    private String toString(int depth) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < depth * 2; i++) {
-            sb.append(" ");
+        StringBuilder sb = new StringBuilder("<" + getTaskName());
+        if (title != null) {
+            sb.append(" title='" + getTitle() + "'");
         }
-        sb.append("<" + getTaskName() + ">");
-        for (Task task : taskList) {
-            sb.append("\n" + task.toString(depth + 1));
-        }
+        sb.append(">");
         return sb.toString();
     }
+
 }

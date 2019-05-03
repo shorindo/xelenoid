@@ -18,7 +18,7 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 
 import com.shorindo.xelenese.ExecutionError;
 import com.shorindo.xelenese.ValidationError;
@@ -29,23 +29,23 @@ import com.shorindo.xelenese.annotation.TaskName;
 /**
  * 
  */
-@TaskName("script")
-public class ScriptTask extends Task {
-    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ScriptTask.class);
+@TaskName("clear")
+public class ClearTask extends Task {
+    private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ClearTask.class);
 
-    public ScriptTask(Task parent) {
+    public ClearTask(Task parent) {
         super(parent);
     }
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute() - " + toString());
+        LOG.debug("execute(" + args[0] + ") - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
-        try {
-            JavascriptExecutor executor = (JavascriptExecutor)getDriver();
-            executor.executeScript(getText());
-        } catch (Throwable th) {
-            errors.add(new ExecutionError(this, th));
+        if (args != null && args.length > 0) {
+            WebElement element = (WebElement)args[0];
+            element.clear();
+        } else {
+            errors.add(new ExecutionError(this, "no element specified."));
         }
         return errors;
     }
@@ -54,4 +54,5 @@ public class ScriptTask extends Task {
     public List<ValidationError> validate() throws XeleneseException {
         return new ArrayList<ValidationError>();
     }
+
 }

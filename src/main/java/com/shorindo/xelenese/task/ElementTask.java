@@ -18,9 +18,11 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.By.ById;
 import org.openqa.selenium.WebElement;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.ChildTasks;
@@ -30,7 +32,7 @@ import com.shorindo.xelenese.annotation.TaskName;
  * 
  */
 @TaskName("element")
-@ChildTasks({"element", "click", "keys", "verify", "assert", "wait"})
+@ChildTasks({"element", "clear", "click", "keys", "verify", "assert", "wait"})
 public class ElementTask extends LocatableTask {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
     private boolean present = true;
@@ -41,7 +43,7 @@ public class ElementTask extends LocatableTask {
 
     @Override
     public List<ExecutionError> execute(Object...args) throws XeleneseException {
-        LOG.debug("execute()");
+        LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             List<WebElement> elements = getDriver().findElements(by);
@@ -53,11 +55,11 @@ public class ElementTask extends LocatableTask {
                         }
                     }
                 } else {
-                    throw new ExecutionError(this, "");
+                    throw new ExecutionError(this, "Specified element not exist.");
                 }
             } else {
                 if (elements.size() > 0) {
-                    ExecutionError e = new ExecutionError(this, "");
+                    ExecutionError e = new ExecutionError(this, "Specified element exists.");
                     LOG.error(e);
                     errors.add(e);
                     if (!ON_ERROR_IGNORE.equals(getOnError())) {
@@ -97,4 +99,14 @@ public class ElementTask extends LocatableTask {
         }
     }
 
+    public String toString() {
+        String byName = by.toString()
+                .replaceAll(".*?([a-zA-Z0-9]+):\\s*(.*)$", "$1='$2'");
+        StringBuilder sb = new StringBuilder("<" + getTaskName())
+            .append(" " + byName)
+            .append(" onError='" + getOnError() + "'")
+            .append(" present='" + present + "'")
+            .append(">");
+        return sb.toString();
+    }
 }

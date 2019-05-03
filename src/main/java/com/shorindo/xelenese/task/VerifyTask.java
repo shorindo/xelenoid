@@ -17,6 +17,7 @@ package com.shorindo.xelenese.task;
 
 import java.util.List;
 
+import com.shorindo.xelenese.ExecutionError;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
 

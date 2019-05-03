@@ -18,6 +18,8 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
@@ -36,12 +38,12 @@ public class GetTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute()");
+        LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             getDriver().get(url);
-        } catch (Exception e) {
-            errors.add(new ExecutionError(this, e));
+        } catch (Throwable th) {
+            errors.add(new ExecutionError(this, th));
         }
         return errors;
     }
@@ -60,4 +62,7 @@ public class GetTask extends Task {
         this.url = url;
     }
 
+    public String toString() {
+        return "<" + getTaskName() + " url='" + url + "'>";
+    }
 }

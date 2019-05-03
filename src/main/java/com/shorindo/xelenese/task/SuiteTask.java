@@ -21,6 +21,8 @@ import java.util.List;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.ChildTasks;
@@ -41,13 +43,13 @@ public class SuiteTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) throws XeleneseException {
-        LOG.debug("execute()");
+        LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             init();
             run();
-        } catch (Exception e) {
-            errors.add(new ExecutionError(this, e));
+        } catch (Throwable th) {
+            errors.add(new ExecutionError(this, th));
         }
         return errors;
     }

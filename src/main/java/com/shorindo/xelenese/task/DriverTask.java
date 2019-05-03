@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
@@ -42,7 +44,7 @@ public class DriverTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) throws XeleneseException {
-        LOG.debug("execute()");
+        LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             if (driverName != null && driverExec != null) {

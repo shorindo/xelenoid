@@ -36,6 +36,7 @@ import org.xml.sax.SAXException;
 
 import com.shorindo.xelenese.annotation.TaskName;
 import com.shorindo.xelenese.task.BackTask;
+import com.shorindo.xelenese.task.ClearTask;
 import com.shorindo.xelenese.task.ClickTask;
 import com.shorindo.xelenese.task.CloseTask;
 import com.shorindo.xelenese.task.DriverTask;
@@ -68,6 +69,7 @@ public class Xelenese {
         {
             put("back", BackTask.class);
             put("click", ClickTask.class);
+            put("clear", ClearTask.class);
             put("close", CloseTask.class);
             put("driver", DriverTask.class);
             put("element", ElementTask.class);

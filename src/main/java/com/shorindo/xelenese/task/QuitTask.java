@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
@@ -37,12 +39,12 @@ public class QuitTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute()");
+        LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             getDriver().quit();
-        } catch (Exception e) {
-            errors.add(new ExecutionError(this, e));
+        } catch (Throwable th) {
+            errors.add(new ExecutionError(this, th));
         }
         return errors;
     }

@@ -1,4 +1,6 @@
 ```
+suite           M
+include         M
 driver          M
 test            M
 get             A   WebDriver#get()
@@ -28,4 +30,5 @@ back            A   Navigation#back()
 forward         A   Navigation#forward()
 refresh         A   Navigation#refresh()
 alert           A
+snapshot
 ```

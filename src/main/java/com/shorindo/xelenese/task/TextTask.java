@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
+import com.shorindo.xelenese.ExecutionError;
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 import com.shorindo.xelenese.XeleneseLogger;
 import com.shorindo.xelenese.annotation.TaskName;
@@ -38,7 +40,7 @@ public class TextTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute()");
+        LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         if (args != null && args.length > 0) {
             WebElement element = (WebElement)args[0];

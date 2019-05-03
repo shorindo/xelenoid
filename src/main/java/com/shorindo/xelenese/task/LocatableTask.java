@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 
+import com.shorindo.xelenese.ValidationError;
 import com.shorindo.xelenese.XeleneseException;
 
 /**

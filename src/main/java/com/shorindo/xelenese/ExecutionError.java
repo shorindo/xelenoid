@@ -13,12 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shorindo.xelenese.task;
+package com.shorindo.xelenese;
+
+import com.shorindo.xelenese.task.Task;
 
 /**
  * 
  */
 @SuppressWarnings("serial")
-public class ValidationError extends Error {
+public class ExecutionError extends Error {
+    private Task task;
 
+    public ExecutionError(Task task, String message, Throwable cause) {
+        super(message, cause);
+        this.task = task;
+    }
+
+    public ExecutionError(Task task, String message) {
+        super(message);
+        this.task = task;
+    }
+
+    public ExecutionError(Task task, Throwable cause) {
+        super(cause);
+        this.task = task;
+    }
+
+    public Task getTask() {
+        return task;
+    }
 }

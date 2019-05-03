@@ -35,7 +35,6 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 
-import com.shorindo.xelenese.task.ExecutionError;
 import com.shorindo.xelenese.task.SuiteTask;
 import com.shorindo.xelenese.task.Task;
 import com.shorindo.xelenese.task.TestTask;

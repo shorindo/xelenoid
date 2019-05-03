@@ -39,7 +39,7 @@ public class TemplateTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         return null;
     }
 
@@ -49,4 +49,8 @@ public class TemplateTask extends Task {
         return new ArrayList<ValidationError>();
     }
 
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
+    }
 }

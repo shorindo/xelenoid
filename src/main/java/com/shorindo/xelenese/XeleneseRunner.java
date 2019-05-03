@@ -101,7 +101,7 @@ public class XeleneseRunner extends Runner {
             notifier.fireTestStarted(child);
             try {
                 Task task = taskMap.get(child.getMethodName());
-                List<ExecutionError> errors = task.execute();
+                List<ExecutionError> errors = task.evaluate();
                 if (errors.size() > 0) {
                     StringBuilder sb = new StringBuilder();
                     for (ExecutionError e : errors) {

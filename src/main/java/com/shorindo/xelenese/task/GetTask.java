@@ -38,7 +38,7 @@ public class GetTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             getDriver().get(url);
@@ -52,6 +52,11 @@ public class GetTask extends Task {
     public List<ValidationError> validate() throws XeleneseException {
         // TODO Auto-generated method stub
         return new ArrayList<ValidationError>();
+    }
+
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
     }
 
     public String getUrl() {

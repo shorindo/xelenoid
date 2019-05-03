@@ -39,7 +39,7 @@ public class ClearTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute(" + args[0] + ") - " + toString());
+        //LOG.debug("execute(" + args[0] + ") - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         if (args != null && args.length > 0) {
             WebElement element = (WebElement)args[0];
@@ -55,4 +55,8 @@ public class ClearTask extends Task {
         return new ArrayList<ValidationError>();
     }
 
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
+    }
 }

@@ -43,37 +43,30 @@ public class ElementTask extends LocatableTask {
 
     @Override
     public List<ExecutionError> execute(Object...args) throws XeleneseException {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
-        try {
-            List<WebElement> elements = getDriver().findElements(by);
-            if (present) {
-                if (elements.size() > 0) {
-                    for (WebElement element : elements) {
-                        for (Task task : getTaskList()) {
-                            errors.addAll(task.execute(element));
-                        }
+        List<WebElement> elements = getDriver().findElements(by);
+        if (present) {
+            if (elements.size() > 0) {
+                for (WebElement element : elements) {
+                    for (Task task : getTaskList()) {
+                        errors.addAll(task.execute(element));
                     }
-                } else {
-                    throw new ExecutionError(this, "Specified element not exist.");
                 }
             } else {
-                if (elements.size() > 0) {
-                    ExecutionError e = new ExecutionError(this, "Specified element exists.");
-                    LOG.error(e);
-                    errors.add(e);
-                    if (!ON_ERROR_IGNORE.equals(getOnError())) {
-                        throw e;
-                    }
-                } else {
-                    
+                ExecutionError e = new ExecutionError(this, "Specified element exists.");
+                errors.add(e);
+                if (!ON_ERROR_IGNORE.equals(getOnError())) {
+                    throw e;
                 }
             }
-        } catch (Throwable th) {
-            LOG.error(th);
-            errors.add(new ExecutionError(this, th));
-            if (!ON_ERROR_IGNORE.equals(getOnError())) {
-                throw th;
+        } else {
+            if (elements.size() > 0) {
+                ExecutionError e = new ExecutionError(this, "Specified element exists.");
+                errors.add(e);
+                if (!ON_ERROR_IGNORE.equals(getOnError())) {
+                    throw e;
+                }
             }
         }
         return errors;
@@ -83,6 +76,11 @@ public class ElementTask extends LocatableTask {
     public List<ValidationError> validate() throws XeleneseException {
         // TODO Auto-generated method stub
         return new ArrayList<ValidationError>();
+    }
+
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
     }
 
     public boolean getPresent() {

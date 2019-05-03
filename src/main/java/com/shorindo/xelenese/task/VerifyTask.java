@@ -34,7 +34,7 @@ public class VerifyTask extends AssertTask {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute()");
+        //LOG.debug("execute()");
         return null;
     }
 }

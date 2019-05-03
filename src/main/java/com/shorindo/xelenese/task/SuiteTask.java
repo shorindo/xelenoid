@@ -43,7 +43,7 @@ public class SuiteTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) throws XeleneseException {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             init();
@@ -60,17 +60,22 @@ public class SuiteTask extends Task {
         return new ArrayList<ValidationError>();
     }
 
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
+    }
+
     public void init() throws XeleneseException {
         for (Task task : getTaskList()) {
             if (!(task instanceof TestTask)) {
-                task.execute();
+                task.evaluate();
             }
         }
     }
     public void run() throws XeleneseException {
         for (Task task : getTaskList()) {
             if (task instanceof TestTask) {
-                task.execute();
+                task.evaluate();
             }
         }
     }

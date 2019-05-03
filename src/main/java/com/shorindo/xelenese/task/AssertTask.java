@@ -49,6 +49,11 @@ public class AssertTask extends Task {
         return new ArrayList<ValidationError>();
     }
 
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
+    }
+
     public String getTarget() {
         return target;
     }

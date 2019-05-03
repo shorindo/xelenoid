@@ -41,19 +41,10 @@ public class TestTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) throws XeleneseException {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
-        try {
-            for (Task task : getTaskList()) {
-                errors.addAll(task.execute());
-            }
-        } catch (Throwable th) {
-            errors.add(new ExecutionError(this, th));
-            if (ON_ERROR_IGNORE.equals(getOnError())) {
-                LOG.error(th);
-            } else {
-                throw th;
-            }
+        for (Task task : getTaskList()) {
+            errors.addAll(task.evaluate());
         }
         return errors;
     }
@@ -62,6 +53,11 @@ public class TestTask extends Task {
     public List<ValidationError> validate() throws XeleneseException {
         // TODO Auto-generated method stub
         return new ArrayList<ValidationError>();
+    }
+
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
     }
 
     public String getDepends() {

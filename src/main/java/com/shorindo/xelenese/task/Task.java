@@ -56,10 +56,25 @@ public abstract class Task {
      * タスクを実行する
      * 
      * @param args タスクの引数
-     * @return タスクが成功したらtrue、失敗したらfalseを返す
+     * @return 失敗したタスクのエラー一覧
      * @throws XeleneseException
      */
     public abstract List<ExecutionError> execute(Object...args) throws XeleneseException;
+
+    public List<ExecutionError> evaluate(Object...args) throws XeleneseException {
+        getLogger().debug("evaluate() - " + toString());
+        List<ExecutionError> errors = new ArrayList<ExecutionError>();
+        try {
+            execute(args);
+        } catch (Throwable th) {
+            errors.add(new ExecutionError(this, th));
+            getLogger().error(th);
+            if (!ON_ERROR_IGNORE.equals(getOnError())) {
+                throw th;
+            }
+        }
+        return errors;
+    }
 
     /**
      * タスクの設定値を検証する
@@ -82,6 +97,8 @@ public abstract class Task {
             return null;
         }
     }
+
+    protected abstract XeleneseLogger getLogger();
 
     public Task getParent() {
         return parent;
@@ -114,8 +131,9 @@ public abstract class Task {
     /**
      * TODO
      */
-    public final void handleError(String message) {
+    public final void fireError(String message) {
         ExecutionError ex = new ExecutionError(this, message);
+        getLogger().error(ex);
     }
 
     public final void setTitle(String title) {

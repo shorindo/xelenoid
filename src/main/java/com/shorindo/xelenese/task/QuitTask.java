@@ -39,7 +39,7 @@ public class QuitTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             getDriver().quit();
@@ -52,5 +52,10 @@ public class QuitTask extends Task {
     @Override
     public List<ValidationError> validate() throws XeleneseException {
         return new ArrayList<ValidationError>();
+    }
+
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
     }
 }

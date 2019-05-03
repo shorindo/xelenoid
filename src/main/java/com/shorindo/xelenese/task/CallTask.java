@@ -37,7 +37,7 @@ public class CallTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute()");
+        //LOG.debug("execute()");
         return null;
     }
 
@@ -45,5 +45,10 @@ public class CallTask extends Task {
     public List<ValidationError> validate() throws XeleneseException {
         // TODO Auto-generated method stub
         return new ArrayList<ValidationError>();
+    }
+
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
     }
 }

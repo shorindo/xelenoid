@@ -38,7 +38,7 @@ public class WaitTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         try {
             Thread.sleep(timeout);
@@ -46,6 +46,11 @@ public class WaitTask extends Task {
             errors.add(new ExecutionError(this, e));
         }
         return errors;
+    }
+
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
     }
 
     public long getTimeout() {

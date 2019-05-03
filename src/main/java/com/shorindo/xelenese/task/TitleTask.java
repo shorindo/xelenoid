@@ -44,13 +44,18 @@ public class TitleTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        LOG.debug("execute() - " + toString());
+        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
         String title = getDriver().getTitle();
         if (title == null || !title.contains(match)) {
             errors.add(new ExecutionError(this, "element has no matching text:" + title));
         }
         return errors;
+    }
+
+    @Override
+    protected XeleneseLogger getLogger() {
+        return LOG;
     }
 
     public String getMatch() {

@@ -19,7 +19,13 @@ import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 
+import mockit.MockUp;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.shorindo.xelenese.task.SuiteTask;
 import com.shorindo.xelenese.task.Task;
@@ -28,6 +34,13 @@ import com.shorindo.xelenese.task.Task;
  * 
  */
 public class XeleneseTest {
+    private static WebDriver driver;
+
+    @BeforeClass
+    public static void setUp() {
+        driver = new MockUp<WebDriver>() {
+        }.getMockInstance();
+    }
 
     @Test
     public void testSuite() throws Exception {
@@ -62,6 +75,12 @@ public class XeleneseTest {
     @Test
     public void testUnkownTag() throws Exception {
         Task suite = load("<foo></foo>");
+    }
+
+    @Test
+    public void testDriver() throws Exception {
+        WebElement element = driver.findElement(By.id("foo"));
+        System.out.println(element);
     }
 
     private Task load(String suite) throws Exception {

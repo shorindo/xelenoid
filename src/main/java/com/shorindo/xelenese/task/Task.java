@@ -128,14 +128,6 @@ public abstract class Task {
         return ((SuiteTask)parent).getDriver();
     }
 
-    /**
-     * TODO
-     */
-    public final void fireError(String message) {
-        ExecutionError ex = new ExecutionError(this, message);
-        getLogger().error(ex);
-    }
-
     public final void setTitle(String title) {
         this.title = title;
     }
@@ -157,6 +149,7 @@ public abstract class Task {
         if (title != null) {
             sb.append(" title='" + getTitle() + "'");
         }
+        sb.append(" onError='" + getOnError() + "'");
         sb.append(">");
         return sb.toString();
     }

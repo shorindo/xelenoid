@@ -16,7 +16,6 @@
 package com.shorindo.xelenese;
 
 import java.io.File;
-import java.io.InputStream;
 
 import javax.servlet.ServletContext;
 
@@ -28,7 +27,6 @@ import org.apache.tomcat.JarScanner;
 import org.apache.tomcat.JarScannerCallback;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**

@@ -38,13 +38,8 @@ public class GetTask extends Task {
 
     @Override
     public List<ExecutionError> execute(Object...args) {
-        //LOG.debug("execute() - " + toString());
         List<ExecutionError> errors = new ArrayList<ExecutionError>();
-        try {
-            getDriver().get(url);
-        } catch (Throwable th) {
-            errors.add(new ExecutionError(this, th));
-        }
+        getDriver().get(url);
         return errors;
     }
 

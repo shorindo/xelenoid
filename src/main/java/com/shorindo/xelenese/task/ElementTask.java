@@ -18,7 +18,7 @@ package com.shorindo.xelenese.task;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.By.ById;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.shorindo.xelenese.ExecutionError;
@@ -33,9 +33,17 @@ import com.shorindo.xelenese.annotation.TaskName;
  */
 @TaskName("element")
 @ChildTasks({"element", "clear", "click", "keys", "verify", "assert", "wait"})
-public class ElementTask extends LocatableTask {
+public class ElementTask extends Task {
     private static final XeleneseLogger LOG = XeleneseLogger.getLogger(ElementTask.class);
+    private String id;
+    private String name;
+    private String linkText;
+    private String className;
+    private String cssSelector;
+    private String tagName;
+    private String xpath;
     private boolean present = true;
+    protected By by;
 
     public ElementTask(Task parent) {
         super(parent);
@@ -81,6 +89,68 @@ public class ElementTask extends LocatableTask {
     @Override
     protected XeleneseLogger getLogger() {
         return LOG;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+        this.by = By.id(id);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLinkText() {
+        return linkText;
+    }
+
+    public void setLinkText(String linkText) {
+        this.linkText = linkText;
+        this.by = By.linkText(linkText);
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+        this.by = By.className(className);
+    }
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+        this.by = By.tagName(tagName);
+    }
+
+    public String getXpath() {
+        return xpath;
+    }
+
+    public void setXpath(String xpath) {
+        this.xpath = xpath;
+        this.by = By.xpath(xpath);
+    }
+
+    public String getCssSelector() {
+        return cssSelector;
+    }
+
+    public void setCssSelector(String cssSelector) {
+        this.cssSelector = cssSelector;
+        this.by = By.cssSelector(cssSelector);
     }
 
     public boolean getPresent() {

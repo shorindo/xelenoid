@@ -51,7 +51,7 @@ public class WebBrowser extends Application implements WebDriver {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        NetworknManager.init();
+        NetworkManager.init();
 
         InputStream is = getClass().getResourceAsStream("xelenoid.fxml");
         Parent root = (Parent)new FXMLLoader().load(is);

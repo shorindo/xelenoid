@@ -129,6 +129,7 @@ public class WebWindow implements Initializable {
         suiteView.load(getClass().getResourceAsStream("sample.xml"));
         webView.setFontScale(1.2);
         webEngine = webView.getEngine();
+        webEngine.setUserAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0; JavaFX-WebView");
         webEngine.getLoadWorker().stateProperty().addListener(
               new ChangeListener<State>() {
                   @Override public void changed(ObservableValue ov, State oldState, State newState) {
